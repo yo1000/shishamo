@@ -9,14 +9,10 @@ data class Index(
         val category: Category
 ) {
     enum class Category(
-            private val order: Int
+            val order: Int
     ) {
         PRIMARY(10),
         UNIQUE(20),
         PERFORMANCE(30);
-
-        fun order(): Int {
-            return order;
-        }
     }
 }
