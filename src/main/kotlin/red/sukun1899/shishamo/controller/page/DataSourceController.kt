@@ -11,16 +11,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 @Controller
 @RequestMapping("data-source")
-public class DataSourceController {
-    private final DataSourceProperties dataSourceProperties;
-
-    public DataSourceController(DataSourceProperties dataSourceProperties) {
-        this.dataSourceProperties = dataSourceProperties;
-    }
-
+class DataSourceController(
+        val dataSourceProperties: DataSourceProperties
+) {
     @GetMapping
-    public String get(Model model) {
-        model.addAttribute("dataSourceProperties", dataSourceProperties);
-        return "data-source";
+    fun get(model: Model): String {
+        model.addAttribute("dataSourceProperties", dataSourceProperties)
+        return "data-source"
     }
 }

@@ -7,27 +7,17 @@ import org.springframework.web.bind.annotation.RestController;
 import red.sukun1899.shishamo.model.Table;
 import red.sukun1899.shishamo.service.TableService;
 
-import java.util.List;
-
 /**
  * @author su-kun1899
  */
 @RestController
 @RequestMapping("v1/tables")
-public class TablesRestController {
-    private final TableService tableService;
-
-    public TablesRestController(TableService tableService) {
-        this.tableService = tableService;
-    }
-
+class TablesRestController(
+        val tableService: TableService
+) {
     @GetMapping
-    public List<Table> get() {
-        return tableService.get();
-    }
+    fun get(): List<Table> = tableService.get()
 
-    @GetMapping(path = "{tableName}")
-    public Table get(@PathVariable String tableName) {
-        return tableService.get(tableName);
-    }
+    @GetMapping(path = arrayOf("{tableName}"))
+    fun get(@PathVariable tableName: String): Table = tableService.get(tableName)
 }

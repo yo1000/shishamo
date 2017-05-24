@@ -9,9 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 @Controller
 @RequestMapping("/")
-public class WelcomeController {
+class WelcomeController {
     @GetMapping
-    public String get() {
-        return "redirect:/tables";
-    }
+    fun get(): String = "redirect:/tables";
 }
