@@ -35,7 +35,7 @@ class ColumnSpec extends Specification {
                 false,
                 "",
                 "",
-                new ReferencedColumn(),
+                new ReferencedColumn("", ""),
                 Collections.emptyList()
         )
     }

@@ -5,7 +5,7 @@ package red.sukun1899.shishamo.model;
  */
 data class Column(
         val name: String,
-        val defaultValue: String,
+        val defaultValue: String?,
         val nullable: Boolean,
         val type: String,
         val comment: String,
