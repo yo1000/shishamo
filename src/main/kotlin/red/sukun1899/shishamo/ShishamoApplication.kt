@@ -5,12 +5,15 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import red.sukun1899.shishamo.embedded.mysql.EmbeddedMySqlUtil;
 
 @SpringBootApplication
-public class ShishamoApplication {
-	public static void main(String[] args) {
-		if (EmbeddedMySqlUtil.enable()) {
-			EmbeddedMySqlUtil.ready();
-		}
+class ShishamoApplication {
+	companion object {
+		@JvmStatic
+		fun main(args: Array<String>) {
+			if (EmbeddedMySqlUtil.enable()) {
+				EmbeddedMySqlUtil.ready();
+			}
 
-		SpringApplication.run(ShishamoApplication.class, args);
+			SpringApplication.run(ShishamoApplication::class.java, *args);
+		}
 	}
 }
