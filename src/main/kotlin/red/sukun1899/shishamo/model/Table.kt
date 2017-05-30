@@ -6,6 +6,6 @@ package red.sukun1899.shishamo.model;
 data class Table(
         val name: String,
         val comment: String,
-        val rowCount: Long,
-        val columns: List<Column>
+        val columns: List<Column>,
+        val rowSize: Long
 )

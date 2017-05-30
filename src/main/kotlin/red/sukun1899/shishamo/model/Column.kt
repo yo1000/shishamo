@@ -3,14 +3,12 @@ package red.sukun1899.shishamo.model;
 /**
  * @author su-kun1899
  */
-data class Column(
+open class Column(
         val name: String,
-        val defaultValue: String?,
-        val nullable: Boolean,
         val type: String,
-        val comment: String,
-        val parent: ReferencedColumn,
-        val children: List<ReferencedColumn>
+        val nullable: Boolean,
+        val defaultValue: String?,
+        val comment: String
 ) {
     fun getIndexCategory(indices: Collection<Index>): Index.Category? {
         return indices.filter {
