@@ -9,8 +9,8 @@ data class Column(
         val nullable: Boolean,
         val type: String,
         val comment: String,
-        val parentColumn: ReferencedColumn,
-        val childColumns: List<ReferencedColumn>
+        val parent: ReferencedColumn,
+        val children: List<ReferencedColumn>
 ) {
     fun getIndexCategory(indices: Collection<Index>): Index.Category? {
         return indices.filter {

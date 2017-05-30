@@ -125,7 +125,7 @@ class TableRepositorySpec extends Specification {
         table.getColumns().get(2).getDefaultValue() == null
         table.getColumns().get(2).getComment() == '出版社ID'
         assert !table.getColumns().get(2).getNullable()
-        table.getColumns().get(2).getParentColumn().getTableName() == 'publisher'
+        table.getColumns().get(2).getParent().getTableName() == 'publisher'
 
         and:
         table.getColumns().get(3).getName() == 'author'
@@ -192,9 +192,9 @@ class TableRepositorySpec extends Specification {
         then:
         table.getName() == tableName
         table.getColumns().get(0).name == 'publisherid'
-        table.getColumns().get(0).childColumns.size() == 2
-        table.getColumns().get(0).childColumns.get(0).getTableName() == 'book'
-        table.getColumns().get(0).childColumns.get(1).getTableName() == 'book2'
+        table.getColumns().get(0).getChildren().size() == 2
+        table.getColumns().get(0).getChildren().get(0).getTableName() == 'book'
+        table.getColumns().get(0).getChildren().get(1).getTableName() == 'book2'
 
         cleanup:
         new DbSetup(destination, sequenceOf(

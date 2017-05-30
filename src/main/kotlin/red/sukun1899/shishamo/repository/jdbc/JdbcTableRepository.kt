@@ -129,8 +129,8 @@ class JdbcTableRepository(
                                     nullable = key["columns_nullable"] as Boolean,
                                     comment = key["columns_comment"] as String,
                                     type = key["columns_type"] as String,
-                                    parentColumn = key["columns_parentColumn"] as ReferencedColumn,
-                                    childColumns = value.map { it["columns_childColumns"] as ReferencedColumn }
+                                    parent = key["columns_parentColumn"] as ReferencedColumn,
+                                    children = value.map { it["columns_childColumns"] as ReferencedColumn }
                             ) }
                     )
                 }.first()
