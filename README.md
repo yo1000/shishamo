@@ -1,10 +1,11 @@
 # shishamo
 [![Build Status](https://travis-ci.org/yo1000/shishamo.svg?branch=kotlin)](https://travis-ci.org/yo1000/shishamo)
-[![Quality Gate](https://sonarqube.com/api/badges/gate?key=com.yo1000:shishamo)](https://sonarqube.com/dashboard?id=red.sukun1899%3Ashishamo)
+[![Quality Gate](https://sonarqube.com/api/badges/gate?key=com.yo1000:shishamo)](https://sonarqube.com/dashboard?id=com.yo1000:shishamo)
 [![Measure Coverage](https://sonarqube.com/api/badges/measure?key=com.yo1000:shishamo&metric=ncloc)](https://sonarqube.com/api/badges/measure?key=com.yo1000:shishamo&metric=ncloc)
-[![Measure Coverage](https://sonarqube.com/api/badges/measure?key=com.yo1000:shishamo&metric=bugs)](https://sonarqube.com/api/badges/measure?key=com.yo1000:shishamo&metric=bugs)
-[![Measure Coverage](https://sonarqube.com/api/badges/measure?key=com.yo1000:shishamo&metric=vulnerabilities)](https://sonarqube.com/api/badges/measure?key=com.yo1000:shishamo&metric=vulnerabilities)
-[![Measure Coverage](https://sonarqube.com/api/badges/measure?key=com.yo1000:shishamo&metric=code_smells)](https://sonarqube.com/api/badges/measure?key=com.yo1000:shishamo&metric=code_smells)
+[![Measure Coverage](https://sonarqube.com/api/badges/measure?key=com.yo1000:shishamo&metric=bugs)](https://sonarcloud.io/component_measures/domain/Reliability?id=com.yo1000:shishamo)
+[![Measure Coverage](https://sonarqube.com/api/badges/measure?key=com.yo1000:shishamo&metric=vulnerabilities)](https://sonarcloud.io/component_measures/domain/Security?id=com.yo1000:shishamo)
+[![Measure Coverage](https://sonarqube.com/api/badges/measure?key=com.yo1000:shishamo&metric=code_smells)](https://sonarcloud.io/component_measures/domain/Maintainability?id=com.yo1000:shishamo)
+[![Measure Coverage](https://sonarqube.com/api/badges/measure?key=com.yo1000:shishamo&metric=duplicated_lines_density)](https://sonarcloud.io/component_measures/metric/duplicated_lines_density/list?id=com.yo1000:shishamo)
 
 shishamo is [MySQL](https://www.mysql.com/) metadata visualizer.
 
