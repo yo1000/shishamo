@@ -6,16 +6,4 @@ package com.yo1000.shishamo.model
  */
 open class Table(
         val name: String
-) {
-    override fun equals(other: Any?): Boolean {
-        if (other !is Table) {
-            return false
-        }
-
-        return other.name == name
-    }
-
-    override fun hashCode(): Int {
-        return 4007 xor name.hashCode()
-    }
-}
+)

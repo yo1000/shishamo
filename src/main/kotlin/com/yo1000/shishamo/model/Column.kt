@@ -13,16 +13,4 @@ open class Column(
             }
         }.map { it.category }.firstOrNull()
     }
-
-    override fun equals(other: Any?): Boolean {
-        if (other !is Column) {
-            return false
-        }
-
-        return other.name == name
-    }
-
-    override fun hashCode(): Int {
-        return 4013 xor name.hashCode()
-    }
 }

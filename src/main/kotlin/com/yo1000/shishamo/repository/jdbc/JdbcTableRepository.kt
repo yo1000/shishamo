@@ -93,13 +93,13 @@ class JdbcTableRepository(
                             "columns_nullable" to resultSet.getBoolean("column_nullable"),
                             "columns_defaultValue" to resultSet.getString("column_defaultValue"),
                             "columns_comment" to resultSet.getString("column_comment"),
-                            "columns_parent" to Relation(
-                                    table =  Table(resultSet.getString("column_parent_tableName") ?: ""),
-                                    column =  Column(resultSet.getString("column_parent_columnName") ?: "")
+                            "columns_parent" to mapOf(
+                                    "table" to (resultSet.getString("column_parent_tableName") ?: ""),
+                                    "column" to (resultSet.getString("column_parent_columnName") ?: "")
                             ),
-                            "columns_children" to Relation(
-                                    table =  Table(resultSet.getString("column_child_tableName") ?: ""),
-                                    column =  Column(resultSet.getString("column_child_name") ?: "")
+                            "columns_children" to mapOf(
+                                    "table" to (resultSet.getString("column_child_tableName") ?: ""),
+                                    "column" to (resultSet.getString("column_child_name") ?: "")
                             )
                     )
                 })
@@ -124,14 +124,26 @@ class JdbcTableRepository(
                                     "comment" to it["columns_comment"],
                                     "parent" to it["columns_parent"]
                             ) }.map { (key, value) ->
+                                val parent: Map<*, *> = key["parent"] as Map<*, *>
+
                                 ColumnDetails(
                                         name = key["name"] as String,
                                         type = key["type"] as String,
                                         nullable = key["nullable"] as Boolean,
                                         defaultValue = key["defaultValue"] as String?,
                                         comment = key["comment"] as String,
-                                        parent = key["parent"] as Relation,
-                                        children = value.map { it["columns_children"] as Relation }
+                                        parent = Relation(
+                                                table =  Table(parent["table"] as String),
+                                                column =  Column(parent["column"] as String)
+                                        ),
+                                        children = value.map {
+                                            val child: Map<*, *> = it["columns_children"] as Map<*, *>
+
+                                            Relation(
+                                                    table = Table(child["table"] as String),
+                                                    column = Column(child["column"] as String)
+                                            )
+                                        }
                                 )
                             }
                     )
