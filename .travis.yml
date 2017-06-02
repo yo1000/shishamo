@@ -3,8 +3,10 @@ jdk:
   - oraclejdk8
 
 script:
-  -> ./mvnw clean install sonar:sonar         \
+  - '
+    ./mvnw clean install sonar:sonar          \
       -Dshishamo.embedded.mysql=true          \
       -Dsonar.host.url=https://sonarcloud.io  \
       -Dsonar.organization=yo1000-github      \
       -Dsonar.login=${SONAR_QUBE_TOKEN}
+    '
