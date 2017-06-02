@@ -3,7 +3,7 @@ package red.sukun1899.shishamo.model;
 /**
  * @author yo1000
  */
-class RelationalColumn(
+class ColumnDetails(
         name: String,
         val type: String,
         val nullable: Boolean,
@@ -11,6 +11,6 @@ class RelationalColumn(
         val comment: String,
         val parent: Relation,
         val children: List<Relation>
-): Column(
+) : Column(
         name
 )

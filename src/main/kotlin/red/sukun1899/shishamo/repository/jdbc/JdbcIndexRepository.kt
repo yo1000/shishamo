@@ -4,7 +4,6 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate
 import org.springframework.stereotype.Repository
 import red.sukun1899.shishamo.model.Column
 import red.sukun1899.shishamo.model.Index
-import red.sukun1899.shishamo.model.ReferencedColumn
 import red.sukun1899.shishamo.repository.IndexRepository
 
 /**
@@ -30,7 +29,7 @@ class JdbcIndexRepository(
                       WHERE
                         idx.table_schema = :schemaName
                         AND
-                        idx.table_name = :tableName
+                        idx.table_name = :table
                       ORDER BY
                         idx.table_name
                         , idx.index_name
@@ -38,7 +37,7 @@ class JdbcIndexRepository(
                 """,
                 mapOf(
                         "schemaName" to schemaName,
-                        "tableName" to tableName
+                        "table" to tableName
                 ),
                 { resultSet, _ ->
                     mapOf(
@@ -57,8 +56,7 @@ class JdbcIndexRepository(
                     }
 
                     Index(name = key, columns = value.map {
-                        Column(it["columns_name"] ?: "", "", false, "", "",
-                                ReferencedColumn("", ""), emptyList())
+                        Column(it["columns_name"] ?: "")
                     }, category = Index.Category.valueOf(value.first()["category"] ?: ""))
                 }
     }

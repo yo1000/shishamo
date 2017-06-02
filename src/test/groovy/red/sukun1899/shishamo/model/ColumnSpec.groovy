@@ -29,15 +29,7 @@ class ColumnSpec extends Specification {
     }
 
     def makeColumn(String name) {
-        return new Column(
-                name,
-                "",
-                false,
-                "",
-                "",
-                new ReferencedColumn("", ""),
-                Collections.emptyList()
-        )
+        return new Column(name)
     }
 
     def makeIndex(Index.Category category, List<Column> columns) {

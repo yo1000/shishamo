@@ -11,9 +11,7 @@ import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 import red.sukun1899.shishamo.embedded.mysql.EmbeddedMySqlUtil
-import red.sukun1899.shishamo.model.Column
-import red.sukun1899.shishamo.model.ReferencedColumn
-import red.sukun1899.shishamo.model.Table
+import red.sukun1899.shishamo.model.*
 import red.sukun1899.shishamo.service.TableService
 import spock.lang.Specification
 import spock.lang.Unroll
@@ -42,8 +40,8 @@ class TablesRestControllerSpec extends Specification {
     def 'Get table list'() {
         setup: 'Prepare expected value'
         def tables = [
-                new Table('table1', "", 0L, Collections.emptyList()),
-                new Table('table2', "", 0L, Collections.emptyList()),
+                new Table('table1'),
+                new Table('table2'),
         ]
 
         and: 'Mocking service'
@@ -63,9 +61,10 @@ class TablesRestControllerSpec extends Specification {
 
     def 'Get table detail'() {
         setup: 'Mock service'
-        def table = new Table(
-                tableName, "", 0L,
-                [makeColumn(columnNames[0]), makeColumn(columnNames[1])]
+        def table = new TableDetails(
+                tableName, "",
+                [makeColumn(columnNames[0]), makeColumn(columnNames[1])],
+                0L
         )
         Mockito.doReturn(table).when(tableService).get(Mockito.anyString())
 
@@ -75,11 +74,11 @@ class TablesRestControllerSpec extends Specification {
         expect:
         mockMvc.perform(MockMvcRequestBuilders.get(url)).andExpect(MockMvcResultMatchers.status().is(HttpStatus.OK.value()))
                 .andExpect(jsonPath('$').isNotEmpty())
-                .andExpect(jsonPath('$.name').value(table.getName()))
+                .andExpect(jsonPath('$.name').value(table.name))
                 .andExpect(jsonPath('$.columns').isArray())
-                .andExpect(jsonPath('$.columns', Matchers.hasSize(table.getColumns().size())))
-                .andExpect(jsonPath('$.columns[0].name').value(table.getColumns().get(0).getName()))
-                .andExpect(jsonPath('$.columns[1].name').value(table.getColumns().get(1).getName()))
+                .andExpect(jsonPath('$.columns', Matchers.hasSize(table.columns.size())))
+                .andExpect(jsonPath('$.columns[0].name').value(table.columns[0].name))
+                .andExpect(jsonPath('$.columns[1].name').value(table.columns[1].name))
 
         where:
         tableName      | columnNames
@@ -88,17 +87,18 @@ class TablesRestControllerSpec extends Specification {
 
     def 'Get column detail'() {
         setup: 'Prepare expected value'
-        def table = new Table(
-                'sample_table', '', 0L,
-                [new Column(
+        def table = new TableDetails(
+                'sample_table', '',
+                [new ColumnDetails(
                         name,
-                        defaultValue,
-                        nullable,
                         type,
+                        nullable,
+                        defaultValue,
                         comment,
-                        new ReferencedColumn('', ''),
+                        new Relation(new Table(''), new Column('')),
                         Collections.emptyList()
-                )]
+                )],
+                0L
         )
 
         and: 'URL'
@@ -110,11 +110,11 @@ class TablesRestControllerSpec extends Specification {
         expect:
         mockMvc.perform(MockMvcRequestBuilders.get(url)).andExpect(MockMvcResultMatchers.status().is(HttpStatus.OK.value()))
                 .andExpect(jsonPath('$').isNotEmpty())
-                .andExpect(jsonPath('$.columns[0].name').value(table.getColumns().get(0).getName()))
-                .andExpect(jsonPath('$.columns[0].defaultValue').value(table.getColumns().get(0).getDefaultValue()))
-                .andExpect(jsonPath('$.columns[0].nullable').value(table.getColumns().get(0).getNullable()))
-                .andExpect(jsonPath('$.columns[0].type').value(table.getColumns().get(0).getType()))
-                .andExpect(jsonPath('$.columns[0].comment').value(table.getColumns().get(0).getComment()))
+                .andExpect(jsonPath('$.columns[0].name').value(table.columns[0].name))
+                .andExpect(jsonPath('$.columns[0].defaultValue').value(table.columns[0].defaultValue))
+                .andExpect(jsonPath('$.columns[0].nullable').value(table.columns[0].nullable))
+                .andExpect(jsonPath('$.columns[0].type').value(table.columns[0].type))
+                .andExpect(jsonPath('$.columns[0].comment').value(table.columns[0].comment))
 
         where:
         name      | defaultValue     | nullable | type          | comment
@@ -122,9 +122,9 @@ class TablesRestControllerSpec extends Specification {
     }
 
     def makeColumn(String name) {
-        return new Column(
-                name, null, false, '', '',
-                new ReferencedColumn("", ""),
+        return new ColumnDetails(
+                name, '', false, null, '',
+                new Relation(new Table(''), new Column('')),
                 Collections.emptyList()
         )
     }

@@ -15,7 +15,7 @@ class IndexService(
         val indexRepository: IndexRepository
 ) {
     @Transactional(readOnly = true)
-    fun get(tableName: String): List<Index> = indexRepository.selectByTableName(dataSourceProperties.schema, tableName)
+    fun get(tableName: String): List<Index> = indexRepository.selectByTableName(dataSourceProperties.name, tableName)
             .sortedWith(Comparator { (name1, _, category1), (name2, _, category2) ->
                 if (category1.order != category2.order) category1.order - category2.order
                 else name1.compareTo(name2)

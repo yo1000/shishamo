@@ -1,14 +1,11 @@
 package red.sukun1899.shishamo.service
 
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties
-import red.sukun1899.shishamo.model.Column
-import red.sukun1899.shishamo.model.CreateTableStatement
-import red.sukun1899.shishamo.model.ReferencedColumn
-import red.sukun1899.shishamo.model.ReferencedTableCount
-import red.sukun1899.shishamo.model.Table
+import red.sukun1899.shishamo.model.*
 import red.sukun1899.shishamo.repository.TableRepository
 import spock.lang.Specification
 import spock.lang.Unroll
+
 /**
  * @author su-kun1899
  */
@@ -20,7 +17,7 @@ class TableServiceSpec extends Specification {
 
     def setup() {
         dataSourceProperties = new DataSourceProperties()
-        dataSourceProperties.schema = 'schema'
+        dataSourceProperties.name = 'schema'
         tableRepository = Mock()
         tableService = new TableService(dataSourceProperties, tableRepository)
     }
@@ -29,8 +26,8 @@ class TableServiceSpec extends Specification {
         given: 'Mocking repository'
         tableRepository.selectAll(_) >> {
             [
-                    makeTable('table1'),
-                    makeTable('table2'),
+                    new Table('table1'),
+                    new Table('table2'),
             ]
         }
 
@@ -39,34 +36,40 @@ class TableServiceSpec extends Specification {
 
         then:
         tables.size() == 2
-        tables[0].getName() == 'table1'
-        tables[1].getName() == 'table2'
+        tables[0].name == 'table1'
+        tables[1].name == 'table2'
     }
 
     def 'Get table detail'() {
         given: 'Mocking repository'
-        def expected = new Table(
+        def expected = new TableDetails(
                 'sample_table',
                 '',
-                0L,
                 [
-                        new Column('columnA', 'mysql', false, '', 'test1', new ReferencedColumn('', ''), Collections.emptyList()),
-                        new Column('columnB', 'oracle', true, '', 'test2', new ReferencedColumn('', ''), Collections.emptyList())
-                ]
+                        new ColumnDetails(
+                                'columnA', '', false, 'mysql', 'test1',
+                                new Relation(new Table(''), new Column('')),
+                                Collections.emptyList()),
+                        new ColumnDetails(
+                                'columnB', '', true, 'oracle', 'test2',
+                                new Relation(new Table(''), new Column('')),
+                                Collections.emptyList())
+                ],
+                0L
         )
         tableRepository.select(*_) >> expected
 
         when:
-        def table = tableService.get(expected.getName())
+        def table = tableService.get(expected.name)
 
         then:
-        assert table.getName() == expected.getName()
-        assert table.getColumns().size() == expected.getColumns().size()
-        table.getColumns().eachWithIndex { Column column, int i ->
-            assert column.getName() == expected.getColumns().get(i).getName()
-            assert column.getDefaultValue() == expected.getColumns().get(i).getDefaultValue()
-            assert column.getNullable() == expected.getColumns().get(i).getNullable()
-            assert column.getComment() == expected.getColumns().get(i).getComment()
+        assert table.name == expected.name
+        assert table.columns.size() == expected.columns.size()
+        table.columns.eachWithIndex { ColumnDetails column, int i ->
+            assert column.name == expected.columns[i].name
+            assert column.defaultValue == expected.columns[i].defaultValue
+            assert column.nullable == expected.columns[i].nullable
+            assert column.comment == expected.columns[i].comment
         }
     }
 
@@ -74,26 +77,26 @@ class TableServiceSpec extends Specification {
         given:
         tableRepository.selectParentTableCountsByTableName(_) >> {
             [
-                    'book'     : new ReferencedTableCount('book', 1L),
-                    'publisher': new ReferencedTableCount('publisher', 0L),
+                    'book'     : new ReferredTable(new Table('book'), 1L),
+                    'publisher': new ReferredTable(new Table('publisher'), 0L),
             ]
         }
 
         when:
-        def actual = tableService.getParentTableCountsByTableName()
+        def actual = tableService.parentTableCountsByTableName
 
         then:
         actual.size() == 1
-        actual.get('book') == 1L
-        actual.get('publisher') == null
+        actual['book'] == 1L
+        actual['publisher'] == null
     }
 
     def 'Get child table count'() {
         given:
         tableRepository.selectChildTableCountsByTableName(_) >> {
             [
-                    'book'     : new ReferencedTableCount('book', 1L),
-                    'publisher': new ReferencedTableCount('publisher', 0L),
+                    'book'     : new ReferredTable(new Table('book'), 1L),
+                    'publisher': new ReferredTable(new Table('publisher'), 0L),
             ]
         }
 
@@ -102,42 +105,38 @@ class TableServiceSpec extends Specification {
 
         then:
         actual.size() == 1
-        actual.get('book') == 1L
-        actual.get('publisher') == null
+        actual['book'] == 1L
+        actual['publisher'] == null
     }
 
     def 'Get column count'() {
         given:
         tableRepository.selectColumnCountsByTableName(_) >> {
             [
-                    'book'     : new ReferencedTableCount('book', 1L),
-                    'publisher': new ReferencedTableCount('publisher', 0L),
+                    'book'     : new ReferredTable(new Table('book'), 1L),
+                    'publisher': new ReferredTable(new Table('publisher'), 0L),
             ]
         }
 
         when:
-        def actual = tableService.getColumnCountsByTableName()
+        def actual = tableService.columnCountsByTableName
 
         then:
         actual.size() == 1
-        actual.get('book') == 1L
-        actual.get('publisher') == null
+        actual['book'] == 1L
+        actual['publisher'] == null
     }
 
     def 'Get create table statement'() {
         given:
-        def createTableStatement = new CreateTableStatement('book', 'Create table book')
+        def createTableStatement = new DataDefinition(new Table('book'), 'Create table book')
         tableRepository.showCreateTableStatement(_) >> createTableStatement
 
         when:
-        def actual = tableService.getCreateTableStatement(makeTable('book'))
+        def actual = tableService.getCreateTableStatement(new Table('book'))
 
         then:
-        actual.getTableName() == createTableStatement.getTableName()
-        actual.getDdl() == createTableStatement.getDdl()
-    }
-
-    def makeTable(String name) {
-        return new Table(name, "", 0L, Collections.emptyList())
+        actual.table == createTableStatement.table
+        actual.statement == createTableStatement.statement
     }
 }

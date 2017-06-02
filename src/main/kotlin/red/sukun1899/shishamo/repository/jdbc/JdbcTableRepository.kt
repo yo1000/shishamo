@@ -13,12 +13,12 @@ import red.sukun1899.shishamo.repository.TableRepository
 class JdbcTableRepository(
         val jdbcTemplate: NamedParameterJdbcTemplate
 ) : TableRepository {
-    override fun selectAll(schemaName: String): List<Table> {
+    override fun selectAll(schemaName: String): List<TableDetails> {
         return jdbcTemplate.query("""
                 SELECT
                     tab.table_name    AS `name`,
                     tab.table_comment AS `comment`,
-                    tab.table_rows    AS `rowCount`
+                    tab.table_rows    AS `rowSize`
                 FROM
                     information_schema.tables tab
                 WHERE
@@ -31,30 +31,31 @@ class JdbcTableRepository(
                 ),
                 { resultSet, _ ->
 
-                    Table(
-                            resultSet.getString("name"),
-                            resultSet.getString("comment"),
-                            resultSet.getLong("rowCount"),
-                            emptyList()
+                    TableDetails(
+                            name = resultSet.getString("name"),
+                            comment = resultSet.getString("comment"),
+                            columns = emptyList(),
+                            rowSize = resultSet.getLong("rowSize")
                     )
                 }
         ) ?: emptyList()
     }
 
-    override fun select(schemaName: String, name: String): Table {
+    override fun select(schemaName: String, name: String): TableDetails {
         return jdbcTemplate.query("""
                 SELECT
-                    tab.table_name               AS `name`,
-                    tab.table_comment            AS `comment`,
-                    tab.table_rows               AS `rowCount`,
-                    col.column_name              AS `column_name`,
-                    col.column_type              AS `column_type`,
-                    col.column_default           AS `column_defaultValue`,
-                    col.is_nullable              AS `column_nullable`,
-                    col.column_comment           AS `column_comment`,
-                    parent.referenced_table_name AS `column_parent_tableName`,
-                    child.column_name            AS `column_child_name`,
-                    child.table_name             AS `column_child_tableName`
+                    tab.table_name                AS `name`,
+                    tab.table_comment             AS `comment`,
+                    tab.table_rows                AS `rowSize`,
+                    col.column_name               AS `column_name`,
+                    col.column_type               AS `column_type`,
+                    col.column_default            AS `column_defaultValue`,
+                    col.is_nullable               AS `column_nullable`,
+                    col.column_comment            AS `column_comment`,
+                    parent.referenced_table_name  AS `column_parent_tableName`,
+                    parent.referenced_column_name AS `column_parent_columnName`,
+                    child.column_name             AS `column_child_name`,
+                    child.table_name              AS `column_child_tableName`
                 FROM
                     information_schema.tables tab
                     INNER JOIN
@@ -87,19 +88,19 @@ class JdbcTableRepository(
                     mapOf(
                             "name" to resultSet.getString("name"),
                             "comment" to resultSet.getString("comment"),
-                            "rowCount" to resultSet.getLong("rowCount"),
+                            "rowSize" to resultSet.getLong("rowSize"),
                             "columns_name" to resultSet.getString("column_name"),
-                            "columns_defaultValue" to resultSet.getString("column_defaultValue"),
-                            "columns_nullable" to resultSet.getBoolean("column_nullable"),
                             "columns_type" to resultSet.getString("column_type"),
+                            "columns_nullable" to resultSet.getBoolean("column_nullable"),
+                            "columns_defaultValue" to resultSet.getString("column_defaultValue"),
                             "columns_comment" to resultSet.getString("column_comment"),
-                            "columns_parentColumn" to ReferencedColumn(
-                                    "",
-                                    resultSet.getString("column_parent_tableName") ?: ""
+                            "columns_parent" to Relation(
+                                    table =  Table(resultSet.getString("column_parent_tableName") ?: ""),
+                                    column =  Column(resultSet.getString("column_parent_columnName") ?: "")
                             ),
-                            "columns_childColumns" to ReferencedColumn(
-                                    resultSet.getString("column_child_name") ?: "",
-                                    resultSet.getString("column_child_tableName") ?: ""
+                            "columns_children" to Relation(
+                                    table =  Table(resultSet.getString("column_child_tableName") ?: ""),
+                                    column =  Column(resultSet.getString("column_child_name") ?: "")
                             )
                     )
                 })
@@ -109,38 +110,38 @@ class JdbcTableRepository(
                 .groupBy { mapOf(
                         "name" to it["name"],
                         "comment" to it["comment"],
-                        "rowCount" to it["rowCount"]
+                        "rowSize" to it["rowSize"]
                 ) }
                 .map { (key, value) ->
-                    Table(
+                    TableDetails(
                             name = key["name"] as String,
                             comment = key["comment"] as String,
-                            rowCount = key["rowCount"] as Long,
+                            rowSize = key["rowSize"] as Long,
                             columns = value.groupBy { mapOf(
-                                    "columns_name" to it["columns_name"],
-                                    "columns_defaultValue" to it["columns_defaultValue"],
-                                    "columns_nullable" to it["columns_nullable"],
-                                    "columns_comment" to it["columns_comment"],
-                                    "columns_type" to it["columns_type"],
-                                    "columns_parentColumn" to it["columns_parentColumn"]
-                            ) }.map { (key, value) -> Column(
-                                    name = key["columns_name"] as String,
-                                    defaultValue = key["columns_defaultValue"] as String?,
-                                    nullable = key["columns_nullable"] as Boolean,
-                                    comment = key["columns_comment"] as String,
-                                    type = key["columns_type"] as String,
-                                    parent = key["columns_parentColumn"] as ReferencedColumn,
-                                    children = value.map { it["columns_childColumns"] as ReferencedColumn }
+                                    "name" to it["columns_name"],
+                                    "type" to it["columns_type"],
+                                    "nullable" to it["columns_nullable"],
+                                    "defaultValue" to it["columns_defaultValue"],
+                                    "comment" to it["columns_comment"],
+                                    "parent" to it["columns_parent"]
+                            ) }.map { (key, value) -> ColumnDetails(
+                                    name = key["name"] as String,
+                                    type = key["type"] as String,
+                                    nullable = key["nullable"] as Boolean,
+                                    defaultValue = key["defaultValue"] as String?,
+                                    comment = key["comment"] as String,
+                                    parent = key["parent"] as Relation,
+                                    children = value.map { it["columns_children"] as Relation }
                             ) }
                     )
                 }.first()
     }
 
-    override fun selectParentTableCountsByTableName(schemaName: String): Map<String, ReferencedTableCount> {
+    override fun selectParentTableCountsByTableName(schemaName: String): Map<String, ReferredTable> {
         return jdbcTemplate.query("""
                 SELECT
-                    table_name     AS baseTableName,
-                    sum(col_count) AS count
+                    table_name     AS "table",
+                    sum(col_count) AS "references"
                 FROM
                     (
                         SELECT
@@ -160,18 +161,18 @@ class JdbcTableRepository(
                         "schemaName" to schemaName
                 ),
                 { resultSet, _ ->
-                    ReferencedTableCount(
-                            baseTableName = resultSet.getString("baseTableName"),
-                            count = resultSet.getLong("count"))
+                    ReferredTable(
+                            table = Table(resultSet.getString("table")),
+                            references = resultSet.getLong("references"))
                 })
-                .associateBy { it.baseTableName }
+                .associateBy { it.table.name }
     }
 
-    override fun selectChildTableCountsByTableName(schemaName: String): Map<String, ReferencedTableCount> {
+    override fun selectChildTableCountsByTableName(schemaName: String): Map<String, ReferredTable> {
         return jdbcTemplate.query("""
                 SELECT
-                    table_name AS baseTableName,
-                    sum(count) AS count
+                    table_name AS "table",
+                    sum(count) AS "references"
                 FROM
                     (
                         SELECT
@@ -193,51 +194,51 @@ class JdbcTableRepository(
                         "schemaName" to schemaName
                 ),
                 { resultSet, _ ->
-                    ReferencedTableCount(
-                            baseTableName = resultSet.getString("baseTableName"),
-                            count = resultSet.getLong("count"))
+                    ReferredTable(
+                            table = Table(resultSet.getString("table")),
+                            references = resultSet.getLong("references"))
                 })
-                .associateBy { it.baseTableName }
+                .associateBy { it.table.name }
     }
 
-    override fun selectColumnCountsByTableName(schemaName: String): Map<String, ReferencedTableCount> {
+    override fun selectColumnCountsByTableName(schemaName: String): Map<String, ReferredTable> {
         return jdbcTemplate.query("""
                 SELECT
-                    tab.table_name         AS baseTableName,
-                    count(col.column_name) AS count
+                    tbl.table_name              AS "table",
+                    count(col.column_name) AS "references"
                 FROM
-                    information_schema.tables tab
-                    INNER JOIN
+                    information_schema.tables tbl
+                INNER JOIN
                     information_schema.columns col
-                        ON tab.table_schema = col.table_schema AND tab.table_name = col.table_name
+                        ON  tbl.table_schema  = col.table_schema
+                        AND tbl.table_name    = col.table_name
                 WHERE
-                    tab.table_schema = :schemaName
-                    AND
-                    tab.table_type = 'BASE TABLE'
+                    tbl.table_schema  = :schemaName
+                AND tbl.table_type    = 'BASE TABLE'
                 GROUP BY
-                    tab.table_name
+                    tbl.table_name
                 """,
                 mapOf(
                         "schemaName" to schemaName
                 ),
                 { resultSet, _ ->
-                    ReferencedTableCount(
-                            baseTableName = resultSet.getString("baseTableName"),
-                            count = resultSet.getLong("count"))
+                    ReferredTable(
+                            table = Table(resultSet.getString("table")),
+                            references = resultSet.getLong("references"))
                 })
-                .associateBy { it.baseTableName }
+                .associateBy { it.table.name }
     }
 
-    override fun showCreateTableStatement(table: Table): CreateTableStatement {
+    override fun showCreateTableStatement(table: Table): DataDefinition {
         return jdbcTemplate.query("""
                 SHOW CREATE TABLE ${table.name}
                 """,
                 { resultSet, _ ->
-                    CreateTableStatement(
-                            tableName = resultSet.getString("table"),
-                            ddl = resultSet.getString("create table")
+                    DataDefinition(
+                            table = Table(resultSet.getString("table")),
+                            statement = resultSet.getString("create table")
                     )
                 }
-        ).first() ?: CreateTableStatement("", "")
+        ).first() ?: DataDefinition(Table(""), "")
     }
 }

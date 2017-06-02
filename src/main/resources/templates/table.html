@@ -47,14 +47,14 @@
             <td><span class="glyphicon glyphicon-ok" aria-hidden="true"
                       th:class="${column.nullable}? 'glyphicon glyphicon-ok'"></span></td>
             <td th:text="${column.defaultValue}"></td>
-            <td><p th:each="childColumn: ${column.childColumns}"
-                   th:if="${column.childColumns != null}">
-                <a href="table.html" th:href="@{'/tables/' + ${childColumn.tableName}}"
-                   th:text="${childColumn.tableName}">fuga</a></p>
+            <td><p th:if="${column.children != null}"
+                   th:each="child: ${column.children}">
+                <a href="table.html" th:href="@{'/tables/' + ${child.table.name}}"
+                   th:text="${child.table.name}">fuga</a></p>
             </td>
-            <td><a href="table.html" th:href="@{'/tables/' + ${column.parentColumn.tableName}}"
-                   th:text="${column.parentColumn.tableName}"
-                   th:if="${column.parentColumn != null}">hoge</a></td>
+            <td><a href="table.html" th:href="@{'/tables/' + ${column.parent.table.name}}"
+                   th:if="${column.parent != null}"
+                   th:text="${column.parent.table.name}">hoge</a></td>
             <td th:text="${column.comment}">ISBN</td>
         </tr>
         <!--/*-->
@@ -116,7 +116,7 @@
         </tbody>
     </table>
 
-    <p class="lead">Table contains <span th:text="${table.rowCount}">0</span> rows.</p>
+    <p class="lead">Table contains <span th:text="${table.rowSize}">0</span> rows.</p>
 
     <div class="page-header">
         <h2>Indices</h2>
@@ -162,7 +162,7 @@
         <h2>Create Table</h2>
     </div>
 
-    <pre th:text="${createTableStatement.ddl}">CREATE TABLE `book` (
+    <pre th:text="${createTableStatement.statement}">CREATE TABLE `book` (
   `isbn` bigint(19) NOT NULL COMMENT 'ISBN',
   `title` varchar(128) NOT NULL COMMENT 'タイトル',
   `publisherid` int(10) unsigned NOT NULL COMMENT '出版社ID',

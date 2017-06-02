@@ -4,9 +4,10 @@ spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
     url: jdbc:mysql://localhost:2215/sample?useSSL=true
-    schema: sample
+    name: sample
     username: sampleUser
     password: samplePassword
+
   jackson:
       serialization:
         indent_output: true

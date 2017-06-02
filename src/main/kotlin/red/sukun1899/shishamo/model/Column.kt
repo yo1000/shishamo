@@ -1,14 +1,10 @@
 package red.sukun1899.shishamo.model;
 
 /**
- * @author su-kun1899
+ * @author yo1000
  */
 open class Column(
-        val name: String,
-        val type: String,
-        val nullable: Boolean,
-        val defaultValue: String?,
-        val comment: String
+        val name: String
 ) {
     fun getIndexCategory(indices: Collection<Index>): Index.Category? {
         return indices.filter {
@@ -16,5 +12,17 @@ open class Column(
                 it.name == this.name
             }
         }.map { it.category }.firstOrNull()
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (other !is Column) {
+            return false
+        }
+
+        return other.name == name
+    }
+
+    override fun hashCode(): Int {
+        return 4013 xor name.hashCode()
     }
 }

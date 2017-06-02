@@ -19,7 +19,7 @@
     <div th:replace="header :: navbar (activeMenu='dataSource')"></div>
 
     <div class="page-header">
-        <h1><span th:text="'Data source ' + ${dataSourceProperties.schema}">Data source sample</span></h1>
+        <h1><span th:text="'Data source ' + ${dataSourceProperties.name}">Data source sample</span></h1>
     </div>
 
     <div class="panel panel-default">
@@ -35,7 +35,7 @@
         <div class="panel-heading">
             <h2 class="panel-title">Schema</h2>
         </div>
-        <div class="panel-body" th:text="${dataSourceProperties.schema}">
+        <div class="panel-body" th:text="${dataSourceProperties.name}">
             sample
         </div>
     </div>
