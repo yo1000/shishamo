@@ -16,5 +16,5 @@ dependencies:
     - mvn dependency:resolve
 test:
   override:
-    - mvn integration-test -Dspring.profiles.active=circleci -Dshishamo.embedded.mysql=false
+    - mvn integration-test -Dspring.profiles.active=ci -Dshishamo.embedded.mysql=false
     - mvn sonar:sonar -Dsonar.host.url=https://sonarcloud.io -Dsonar.organization=yo1000-github -Dsonar.login=${SONAR_QUBE_TOKEN}
