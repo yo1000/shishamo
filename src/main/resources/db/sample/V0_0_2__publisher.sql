@@ -1,7 +1,7 @@
 CREATE TABLE `publisher` (
   `id` int(10) unsigned NOT NULL COMMENT '出版社ID',
   `name` varchar(40) NOT NULL COMMENT '出版社名',
-  PRIMARY KEY (`publisherid`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='出版社';
 
 DROP TABLE IF EXISTS `book`;
