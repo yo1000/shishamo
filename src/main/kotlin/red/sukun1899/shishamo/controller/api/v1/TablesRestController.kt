@@ -9,6 +9,7 @@ import red.sukun1899.shishamo.service.TableService
 
 /**
  * @author su-kun1899
+ * @author yo1000
  */
 @RestController
 @RequestMapping("v1/tables")

@@ -7,7 +7,6 @@ import red.sukun1899.shishamo.model.Index
 import red.sukun1899.shishamo.repository.IndexRepository
 
 /**
- *
  * @author yo1000
  */
 @Repository

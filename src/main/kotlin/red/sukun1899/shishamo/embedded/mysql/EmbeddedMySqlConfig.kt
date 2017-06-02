@@ -6,6 +6,7 @@ import com.wix.mysql.distribution.Version
 
 /**
  * @author su-kun1899
+ * @author yo1000
  */
 class EmbeddedMySqlConfig(
         var enable: Boolean = false,

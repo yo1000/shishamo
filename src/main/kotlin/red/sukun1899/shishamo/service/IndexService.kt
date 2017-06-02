@@ -8,6 +8,7 @@ import red.sukun1899.shishamo.repository.IndexRepository
 
 /**
  * @author su-kun1899
+ * @author yo1000
  */
 @Service
 class IndexService(

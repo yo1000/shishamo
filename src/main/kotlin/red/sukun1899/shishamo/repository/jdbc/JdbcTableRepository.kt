@@ -6,7 +6,6 @@ import red.sukun1899.shishamo.model.*
 import red.sukun1899.shishamo.repository.TableRepository
 
 /**
- *
  * @author yo1000
  */
 @Repository

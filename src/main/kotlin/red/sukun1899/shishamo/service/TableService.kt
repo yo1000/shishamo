@@ -10,6 +10,7 @@ import red.sukun1899.shishamo.repository.TableRepository
 
 /**
  * @author su-kun1899
+ * @author yo1000
  */
 @Service
 class TableService(

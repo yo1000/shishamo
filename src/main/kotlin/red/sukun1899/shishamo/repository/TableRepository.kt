@@ -7,6 +7,7 @@ import red.sukun1899.shishamo.model.TableDetails
 
 /**
  * @author su-kun1899
+ * @author yo1000
  */
 interface TableRepository {
     fun selectAll(schemaName: String): List<TableDetails>

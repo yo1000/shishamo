@@ -13,6 +13,7 @@ import red.sukun1899.shishamo.service.TableService
 
 /**
  * @author su-kun1899
+ * @author yo1000
  */
 @Controller
 @RequestMapping("tables")
