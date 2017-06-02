@@ -52,14 +52,14 @@ class TableRepositorySpec extends Specification {
         )).launch()
 
         when:
-        def tables = tableRepository.selectAll(dataSourceProperties.getSchema())
+        def tables = tableRepository.selectAll(dataSourceProperties.name)
 
         then:
         tables.size() == 1
         tables.each {
             assert it.getName() == 'book'
             assert it.getComment() == '書籍'
-            assert it.getRowCount() == 2L
+            assert it.getRowSize() == 2L
         }
     }
 
@@ -97,42 +97,42 @@ class TableRepositorySpec extends Specification {
         )).launch()
 
         when:
-        def table = tableRepository.select(dataSourceProperties.getSchema(), tableName)
+        def table = tableRepository.select(dataSourceProperties.name, tableName)
 
         then:
         table.getName() == tableName
         table.getComment() == '書籍'
         table.getColumns().size() == 4
-        table.getRowCount() == 2L
+        table.getRowSize() == 2L
 
         and:
         table.getColumns().get(0).getName() == 'isbn'
         table.getColumns().get(0).getType() == 'bigint(19)'
         table.getColumns().get(0).getDefaultValue() == null
         table.getColumns().get(0).getComment() == 'ISBN'
-        assert !table.getColumns().get(0).isNullable()
+        assert !table.getColumns().get(0).getNullable()
 
         and:
         table.getColumns().get(1).getName() == 'title'
         table.getColumns().get(1).getType() == 'varchar(128)'
         table.getColumns().get(1).getDefaultValue() == null
         table.getColumns().get(1).getComment() == 'タイトル'
-        assert !table.getColumns().get(1).isNullable()
+        assert !table.getColumns().get(1).getNullable()
 
         and:
         table.getColumns().get(2).getName() == 'publisherid'
         table.getColumns().get(2).getType() == 'int(10) unsigned'
         table.getColumns().get(2).getDefaultValue() == null
         table.getColumns().get(2).getComment() == '出版社ID'
-        assert !table.getColumns().get(2).isNullable()
-        table.getColumns().get(2).getParentColumn().getTableName() == 'publisher'
+        assert !table.getColumns().get(2).getNullable()
+        table.columns[2].parent.table.name == 'publisher'
 
         and:
         table.getColumns().get(3).getName() == 'author'
         table.getColumns().get(3).getType() == 'varchar(40)'
         table.getColumns().get(3).getDefaultValue() == null
         table.getColumns().get(3).getComment() == '著者'
-        assert !table.getColumns().get(3).isNullable()
+        assert !table.getColumns().get(3).getNullable()
 
         cleanup:
         new DbSetup(destination, sequenceOf(
@@ -187,14 +187,14 @@ class TableRepositorySpec extends Specification {
         )).launch()
 
         when:
-        def table = tableRepository.select(dataSourceProperties.getSchema(), tableName)
+        def table = tableRepository.select(dataSourceProperties.name, tableName)
 
         then:
-        table.getName() == tableName
-        table.getColumns().get(0).name == 'publisherid'
-        table.getColumns().get(0).childColumns.size() == 2
-        table.getColumns().get(0).childColumns.get(0).getTableName() == 'book'
-        table.getColumns().get(0).childColumns.get(1).getTableName() == 'book2'
+        table.name == tableName
+        table.columns[0].name == 'publisherid'
+        table.columns[0].children.size() == 2
+        table.columns[0].children[0].table.name == 'book'
+        table.columns[0].children[1].table.name == 'book2'
 
         cleanup:
         new DbSetup(destination, sequenceOf(
@@ -239,12 +239,12 @@ class TableRepositorySpec extends Specification {
         )).launch()
 
         when:
-        def actual = tableRepository.selectParentTableCountsByTableName(dataSourceProperties.getSchema())
+        def actual = tableRepository.selectParentTableCountsByTableName(dataSourceProperties.name)
 
         then:
         actual.size() == 2
-        actual.get('publisher').getCount() == 0L
-        actual.get('book').getCount() == 1L
+        actual.get('publisher').getReferences() == 0L
+        actual.get('book').getReferences() == 1L
 
         cleanup:
         new DbSetup(destination, sequenceOf(
@@ -315,12 +315,12 @@ class TableRepositorySpec extends Specification {
         )).launch()
 
         when:
-        def actual = tableRepository.selectChildTableCountsByTableName(dataSourceProperties.getSchema())
+        def actual = tableRepository.selectChildTableCountsByTableName(dataSourceProperties.name)
 
         then:
         actual.size() == 2
-        actual.get('publisher').getCount() == 1L
-        actual.get('publisher2').getCount() == 2L
+        actual.get('publisher').getReferences() == 1L
+        actual.get('publisher2').getReferences() == 2L
 
         cleanup:
         new DbSetup(destination, sequenceOf(
@@ -362,12 +362,12 @@ class TableRepositorySpec extends Specification {
         )).launch()
 
         when:
-        def actual = tableRepository.selectColumnCountsByTableName(dataSourceProperties.getSchema())
+        def actual = tableRepository.selectColumnCountsByTableName(dataSourceProperties.name)
 
         then:
         actual.size() == 2
-        actual.get('publisher').getCount() == 2L
-        actual.get('book').getCount() == 4L
+        actual.get('publisher').getReferences() == 2L
+        actual.get('book').getReferences() == 4L
 
         cleanup:
         new DbSetup(destination, sequenceOf(
@@ -406,11 +406,11 @@ class TableRepositorySpec extends Specification {
         )).launch()
 
         when:
-        def actual = tableRepository.showCreateTableStatement(new Table(name: 'book'))
+        def actual = tableRepository.showCreateTableStatement(new Table('book'))
 
         then:
-        actual.tableName == 'book'
-        actual.ddl == 'CREATE TABLE `book` (\n' +
+        actual.table.name == 'book'
+        actual.statement == 'CREATE TABLE `book` (\n' +
                 '  `isbn` bigint(19) NOT NULL COMMENT \'ISBN\',\n' +
                 '  `title` varchar(128) NOT NULL COMMENT \'タイトル\',\n' +
                 '  `publisherid` int(10) unsigned NOT NULL COMMENT \'出版社ID\',\n' +

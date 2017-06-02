@@ -55,7 +55,7 @@ class IndexRepositorySpec extends Specification {
         )).launch()
 
         when:
-        def indices = indexRepository.selectByTableName(dataSourceProperties.getSchema(), tableName)
+        def indices = indexRepository.selectByTableName(dataSourceProperties.name, tableName)
 
         then:
         indices.size() == 5
@@ -122,7 +122,7 @@ class IndexRepositorySpec extends Specification {
         )).launch()
 
         when:
-        def indices = indexRepository.selectByTableName(dataSourceProperties.getSchema(), tableName)
+        def indices = indexRepository.selectByTableName(dataSourceProperties.name, tableName)
 
         then:
         indices.size() == 1

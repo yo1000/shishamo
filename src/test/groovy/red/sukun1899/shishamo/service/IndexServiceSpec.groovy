@@ -23,16 +23,21 @@ class IndexServiceSpec extends Specification {
 
     def 'Get indices by table name'() {
         given: 'Mocking repository'
-        dataSourceProperties.getSchema() >> 'schema1'
+        dataSourceProperties.name >> 'schema1'
         indexRepository.selectByTableName('schema1', 'table1') >> {
             [
                     new Index(
-                            name: 'index1', category: Index.Category.PRIMARY,
-                            columns: [new Column(name: 'hoge')]
+                            'index1',
+                            [new Column('hoge')],
+                            Index.Category.PRIMARY
                     ),
                     new Index(
-                            name: 'index2', category: Index.Category.UNIQUE,
-                            columns: [new Column(name: 'fuga'), new Column(name: 'fuga')])
+                            'index2',
+                            [
+                                    new Column('fuga'),
+                                    new Column('fuga')
+                            ],
+                            Index.Category.UNIQUE)
             ]
         }
 
@@ -41,50 +46,59 @@ class IndexServiceSpec extends Specification {
 
         then:
         actual.size() == 2
-        actual.get(0).getName() == 'index1'
-        actual.get(1).getName() == 'index2'
+        actual[0].name == 'index1'
+        actual[1].name == 'index2'
     }
 
     def 'Indices order by category and name'() {
         given: 'Shuffle indices'
         def indices = [
                 new Index(
-                        name: 'a_pk', category: Index.Category.PRIMARY,
-                        columns: [new Column(name: 'hoge')]
+                        'a_pk',
+                        [new Column('hoge')],
+                        Index.Category.PRIMARY
                 ),
                 new Index(
-                        name: 'b_pk', category: Index.Category.PRIMARY,
-                        columns: [new Column(name: 'fuga')]),
-                new Index(
-                        name: 'a_uk', category: Index.Category.UNIQUE,
-                        columns: [new Column(name: 'piyo')]
+                        'b_pk',
+                        [new Column('fuga')],
+                        Index.Category.PRIMARY
                 ),
                 new Index(
-                        name: 'b_uk', category: Index.Category.UNIQUE,
-                        columns: [new Column(name: 'hogehoge')]),
-                new Index(
-                        name: 'a_k', category: Index.Category.PERFORMANCE,
-                        columns: [new Column(name: 'fugafugafuga')]
+                        'a_uk',
+                        [new Column('piyo')],
+                        Index.Category.UNIQUE
                 ),
                 new Index(
-                        name: 'b_k', category: Index.Category.PERFORMANCE,
-                        columns: [new Column(name: 'piyopiyo')])
+                        'b_uk',
+                        [new Column('hogehoge')],
+                        Index.Category.UNIQUE
+                ),
+                new Index(
+                        'a_k',
+                        [new Column('fugafugafuga')],
+                        Index.Category.PERFORMANCE
+                ),
+                new Index(
+                        'b_k',
+                        [new Column('piyopiyo')],
+                        Index.Category.PERFORMANCE
+                )
         ]
         Collections.shuffle(indices)
 
         and: 'Mocking repository'
-        dataSourceProperties.getSchema() >> 'schema1'
+        dataSourceProperties.name >> 'schema1'
         indexRepository.selectByTableName('schema1', 'table1') >> indices
 
         when:
         def actual = indexService.get('table1')
 
         then:
-        actual.get(0).getName() == 'a_pk'
-        actual.get(1).getName() == 'b_pk'
-        actual.get(2).getName() == 'a_uk'
-        actual.get(3).getName() == 'b_uk'
-        actual.get(4).getName() == 'a_k'
-        actual.get(5).getName() == 'b_k'
+        actual[0].name == 'a_pk'
+        actual[1].name == 'b_pk'
+        actual[2].name == 'a_uk'
+        actual[3].name == 'b_uk'
+        actual[4].name == 'a_k'
+        actual[5].name == 'b_k'
     }
 }
