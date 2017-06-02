@@ -1,4 +1,4 @@
-package red.sukun1899.shishamo.model;
+package red.sukun1899.shishamo.model
 
 /**
  * @author su-kun1899

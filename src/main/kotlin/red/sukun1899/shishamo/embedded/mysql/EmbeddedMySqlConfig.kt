@@ -1,4 +1,4 @@
-package red.sukun1899.shishamo.embedded.mysql;
+package red.sukun1899.shishamo.embedded.mysql
 
 import com.wix.mysql.config.Charset
 import com.wix.mysql.config.Charset.*
@@ -19,13 +19,13 @@ class EmbeddedMySqlConfig(
     fun getWixCharset(): Charset {
         when (charset.toLowerCase()) {
             UTF8.charset.toLowerCase() ->
-                return UTF8;
+                return UTF8
             UTF8MB4.charset.toLowerCase() ->
-                return UTF8MB4;
+                return UTF8MB4
             LATIN1.charset.toLowerCase() ->
-                return LATIN1;
+                return LATIN1
             else ->
-                return UTF8;
+                return UTF8
         }
     }
 }

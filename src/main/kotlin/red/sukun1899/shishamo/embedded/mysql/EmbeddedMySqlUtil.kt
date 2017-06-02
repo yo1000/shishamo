@@ -1,4 +1,4 @@
-package red.sukun1899.shishamo.embedded.mysql;
+package red.sukun1899.shishamo.embedded.mysql
 
 import com.wix.mysql.EmbeddedMysql
 import com.wix.mysql.EmbeddedMysql.anEmbeddedMysql
@@ -22,16 +22,17 @@ class EmbeddedMySqlUtil private constructor () {
                 return it.toBoolean()
             }
 
-            return config.enable;
+            return config.enable
         }
 
         @JvmStatic
         fun ready(): EmbeddedMysql? {
             if (!enable()) {
                 throw error("Embedded MySQL is disabled. " +
-                        "Check your configuration file in embedded-mysql.yml");
+                        "Check your configuration file in embedded-mysql.yml")
             }
-            return SINGLETON_INSTANCE;
+
+            return SINGLETON_INSTANCE
         }
 
         private fun loadConfig(): EmbeddedMySqlConfig {

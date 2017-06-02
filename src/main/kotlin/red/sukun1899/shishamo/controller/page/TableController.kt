@@ -24,7 +24,7 @@ class TableController(
     @GetMapping
     fun get(model: Model): String {
         val tables: List<Table> = tableService.get()
-        model.addAttribute("tables", tables);
+        model.addAttribute("tables", tables)
 
         model.addAttribute("parentTableCounts", tableService.getParentTableCountsByTableName())
         model.addAttribute("childTableCounts", tableService.getChildTableCountsByTableName())

@@ -1,4 +1,4 @@
-package red.sukun1899.shishamo.repository;
+package red.sukun1899.shishamo.repository
 
 import red.sukun1899.shishamo.model.DataDefinition
 import red.sukun1899.shishamo.model.ReferredTable

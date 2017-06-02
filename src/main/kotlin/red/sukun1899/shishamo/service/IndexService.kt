@@ -1,4 +1,4 @@
-package red.sukun1899.shishamo.service;
+package red.sukun1899.shishamo.service
 
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties
 import org.springframework.stereotype.Service

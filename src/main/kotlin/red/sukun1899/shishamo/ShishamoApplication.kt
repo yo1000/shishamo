@@ -1,8 +1,8 @@
-package red.sukun1899.shishamo;
+package red.sukun1899.shishamo
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import red.sukun1899.shishamo.embedded.mysql.EmbeddedMySqlUtil;
+import org.springframework.boot.SpringApplication
+import org.springframework.boot.autoconfigure.SpringBootApplication
+import red.sukun1899.shishamo.embedded.mysql.EmbeddedMySqlUtil
 
 @SpringBootApplication
 class ShishamoApplication {
@@ -10,10 +10,10 @@ class ShishamoApplication {
 		@JvmStatic
 		fun main(args: Array<String>) {
 			if (EmbeddedMySqlUtil.enable()) {
-				EmbeddedMySqlUtil.ready();
+				EmbeddedMySqlUtil.ready()
 			}
 
-			SpringApplication.run(ShishamoApplication::class.java, *args);
+			SpringApplication.run(ShishamoApplication::class.java, *args)
 		}
 	}
 }

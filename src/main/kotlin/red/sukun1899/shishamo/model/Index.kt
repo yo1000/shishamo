@@ -1,4 +1,4 @@
-package red.sukun1899.shishamo.model;
+package red.sukun1899.shishamo.model
 
 /**
  * @author su-kun1899
@@ -13,6 +13,6 @@ data class Index(
     ) {
         PRIMARY(10),
         UNIQUE(20),
-        PERFORMANCE(30);
+        PERFORMANCE(30)
     }
 }
