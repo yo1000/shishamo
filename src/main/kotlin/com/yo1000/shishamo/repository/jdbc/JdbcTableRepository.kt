@@ -12,6 +12,21 @@ import org.springframework.stereotype.Repository
 class JdbcTableRepository(
         val jdbcTemplate: NamedParameterJdbcTemplate
 ) : TableRepository {
+    private companion object {
+        val MAP_KEY_NAME = "name"
+        val MAP_KEY_COMMENT = "comment"
+        val MAP_KEY_ROW_SIZE = "rowSize"
+        val MAP_KEY_COLS_NAME = "columns_name"
+        val MAP_KEY_COLS_TYPE = "columns_type"
+        val MAP_KEY_COLS_NULLABLE = "columns_nullable"
+        val MAP_KEY_COLS_DEFAULT_VALUE = "columns_defaultValue"
+        val MAP_KEY_COLS_COMMENT = "columns_comment"
+        val MAP_KEY_COLS_PARENT = "columns_parent"
+        val MAP_KEY_COLS_CHILDREN = "columns_children"
+        val MAP_KEY_TABLE = "table"
+        val MAP_KEY_COLUMN = "column"
+    }
+
     override fun selectAll(schemaName: String): List<TableDetails> {
         return jdbcTemplate.query("""
                 SELECT
@@ -85,60 +100,60 @@ class JdbcTableRepository(
                 ),
                 { resultSet, _ ->
                     mapOf(
-                            "name" to resultSet.getString("name"),
-                            "comment" to resultSet.getString("comment"),
-                            "rowSize" to resultSet.getLong("rowSize"),
-                            "columns_name" to resultSet.getString("column_name"),
-                            "columns_type" to resultSet.getString("column_type"),
-                            "columns_nullable" to resultSet.getBoolean("column_nullable"),
-                            "columns_defaultValue" to resultSet.getString("column_defaultValue"),
-                            "columns_comment" to resultSet.getString("column_comment"),
-                            "columns_parent" to mapOf(
-                                    "table" to (resultSet.getString("column_parent_tableName") ?: ""),
-                                    "column" to (resultSet.getString("column_parent_columnName") ?: "")
+                            MAP_KEY_NAME to resultSet.getString("name"),
+                            MAP_KEY_COMMENT to resultSet.getString("comment"),
+                            MAP_KEY_ROW_SIZE to resultSet.getLong("rowSize"),
+                            MAP_KEY_COLS_NAME to resultSet.getString("column_name"),
+                            MAP_KEY_COLS_TYPE to resultSet.getString("column_type"),
+                            MAP_KEY_COLS_NULLABLE to resultSet.getBoolean("column_nullable"),
+                            MAP_KEY_COLS_DEFAULT_VALUE to resultSet.getString("column_defaultValue"),
+                            MAP_KEY_COLS_COMMENT to resultSet.getString("column_comment"),
+                            MAP_KEY_COLS_PARENT to mapOf(
+                                    MAP_KEY_TABLE to (resultSet.getString("column_parent_tableName") ?: ""),
+                                    MAP_KEY_COLUMN to (resultSet.getString("column_parent_columnName") ?: "")
                             ),
-                            "columns_children" to mapOf(
-                                    "table" to (resultSet.getString("column_child_tableName") ?: ""),
-                                    "column" to (resultSet.getString("column_child_name") ?: "")
+                            MAP_KEY_COLS_CHILDREN to mapOf(
+                                    MAP_KEY_TABLE to (resultSet.getString("column_child_tableName") ?: ""),
+                                    MAP_KEY_COLUMN to (resultSet.getString("column_child_name") ?: "")
                             )
                     )
                 })
                 .groupBy { mapOf(
-                        "name" to it["name"],
-                        "comment" to it["comment"],
-                        "rowSize" to it["rowSize"]
+                        MAP_KEY_NAME to it[MAP_KEY_NAME],
+                        MAP_KEY_COMMENT to it[MAP_KEY_COMMENT],
+                        MAP_KEY_ROW_SIZE to it[MAP_KEY_ROW_SIZE]
                 ) }
                 .map { (key, value) ->
                     TableDetails(
-                            name = key["name"] as String,
-                            comment = key["comment"] as String,
-                            rowSize = key["rowSize"] as Long,
+                            name = key[MAP_KEY_NAME] as String,
+                            comment = key[MAP_KEY_COMMENT] as String,
+                            rowSize = key[MAP_KEY_ROW_SIZE] as Long,
                             columns = value.groupBy { mapOf(
-                                    "name" to it["columns_name"],
-                                    "type" to it["columns_type"],
-                                    "nullable" to it["columns_nullable"],
-                                    "defaultValue" to it["columns_defaultValue"],
-                                    "comment" to it["columns_comment"],
-                                    "parent" to it["columns_parent"]
+                                    MAP_KEY_COLS_NAME to it[MAP_KEY_COLS_NAME],
+                                    MAP_KEY_COLS_TYPE to it[MAP_KEY_COLS_TYPE],
+                                    MAP_KEY_COLS_NULLABLE to it[MAP_KEY_COLS_NULLABLE],
+                                    MAP_KEY_COLS_DEFAULT_VALUE to it[MAP_KEY_COLS_DEFAULT_VALUE],
+                                    MAP_KEY_COLS_COMMENT to it[MAP_KEY_COLS_COMMENT],
+                                    MAP_KEY_COLS_PARENT to it[MAP_KEY_COLS_PARENT]
                             ) }.map { (key, value) ->
-                                val parent: Map<*, *> = key["parent"] as Map<*, *>
+                                val parent: Map<*, *> = key[MAP_KEY_COLS_PARENT] as Map<*, *>
 
                                 ColumnDetails(
-                                        name = key["name"] as String,
-                                        type = key["type"] as String,
-                                        nullable = key["nullable"] as Boolean,
-                                        defaultValue = key["defaultValue"] as String?,
-                                        comment = key["comment"] as String,
+                                        name = key[MAP_KEY_COLS_NAME] as String,
+                                        type = key[MAP_KEY_COLS_TYPE] as String,
+                                        nullable = key[MAP_KEY_COLS_NULLABLE] as Boolean,
+                                        defaultValue = key[MAP_KEY_COLS_DEFAULT_VALUE] as String?,
+                                        comment = key[MAP_KEY_COLS_COMMENT] as String,
                                         parent = Relation(
-                                                table =  Table(parent["table"] as String),
-                                                column =  Column(parent["column"] as String)
+                                                table =  Table(parent[MAP_KEY_TABLE] as String),
+                                                column =  Column(parent[MAP_KEY_COLUMN] as String)
                                         ),
                                         children = value.map {
-                                            val child: Map<*, *> = it["columns_children"] as Map<*, *>
+                                            val child: Map<*, *> = it[MAP_KEY_COLS_CHILDREN] as Map<*, *>
 
                                             Relation(
-                                                    table = Table(child["table"] as String),
-                                                    column = Column(child["column"] as String)
+                                                    table = Table(child[MAP_KEY_TABLE] as String),
+                                                    column = Column(child[MAP_KEY_COLUMN] as String)
                                             )
                                         }
                                 )

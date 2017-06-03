@@ -13,6 +13,12 @@ import org.springframework.stereotype.Repository
 class JdbcIndexRepository(
         val jdbcTemplate: NamedParameterJdbcTemplate
 ) : IndexRepository {
+    private companion object {
+        val MAP_KEY_NAME = "name"
+        val MAP_KEY_CATEGORY = "category"
+        val MAP_KEY_COL_NAME = "column_name"
+    }
+
     override fun selectByTableName(schemaName: String, tableName: String): List<Index> {
         return jdbcTemplate.query("""
                       SELECT
@@ -40,20 +46,20 @@ class JdbcIndexRepository(
                 ),
                 { resultSet, _ ->
                     mapOf(
-                            "name" to resultSet.getString("name"),
-                            "category" to resultSet.getString("category"),
-                            "columns_name" to resultSet.getString("column_name")
+                            MAP_KEY_NAME to resultSet.getString("name"),
+                            MAP_KEY_CATEGORY to resultSet.getString("category"),
+                            MAP_KEY_COL_NAME to resultSet.getString("column_name")
                     )
                 })
-                .groupBy { it["name"] }
+                .groupBy { it[MAP_KEY_NAME] }
                 .map { (key, value) ->
                     if (key == null) {
                         error("Index name is null")
                     }
 
                     Index(name = key, columns = value.map {
-                        Column(it["columns_name"] ?: "")
-                    }, category = Index.Category.valueOf(value.first()["category"] ?: ""))
+                        Column(it[MAP_KEY_COL_NAME] ?: "")
+                    }, category = Index.Category.valueOf(value.first()[MAP_KEY_CATEGORY] ?: ""))
                 }
     }
 }
