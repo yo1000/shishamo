@@ -15,10 +15,10 @@ Sakila definitely likes it too.
 
 ## Quick Start
 
-```
+```console
 $ git clone https://github.com/yo1000/shishamo.git
 $ cd shishamo/
-$ ./mvnw spring-boot:run \
+$ ./mvnw clean spring-boot:run \
     -Dspring.datasource.url=jdbc:mysql://<host>:<port>/<database> \
     -Dspring.datasource.name=<schema> \
     -Dspring.datasource.username=<username> \
@@ -30,8 +30,8 @@ http://localhost:8080/
 
 ### Demo with embedded MySQL
 
-```
-./mvnw spring-boot:run -Dshishamo.embedded.mysql=true
+```console
+$ ./mvnw clean spring-boot:run -Dshishamo.embedded.mysql=true
 ```
 
 URL:
@@ -42,7 +42,7 @@ http://localhost:8080/
 
 You can use embedded MySQL server for demo, testing, and development.
 
-Example:  
+Example:
 - `java -jar -Dshishamo.embedded.mysql=true shishamo.jar`
 - `./mvnw spring-boot:run -Dshishamo.embedded.mysql=true`  
 
