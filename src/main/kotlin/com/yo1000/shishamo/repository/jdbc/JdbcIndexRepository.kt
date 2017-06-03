@@ -45,9 +45,6 @@ class JdbcIndexRepository(
                             "columns_name" to resultSet.getString("column_name")
                     )
                 })
-                //
-                // TODO: 検索結果が存在しない場合のテスト
-                //
                 .groupBy { it["name"] }
                 .map { (key, value) ->
                     if (key == null) {

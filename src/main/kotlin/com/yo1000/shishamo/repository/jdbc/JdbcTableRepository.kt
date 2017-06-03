@@ -103,9 +103,6 @@ class JdbcTableRepository(
                             )
                     )
                 })
-                //
-                // TODO: 検索結果が存在しない場合のテスト
-                //
                 .groupBy { mapOf(
                         "name" to it["name"],
                         "comment" to it["comment"],
