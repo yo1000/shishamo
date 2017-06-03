@@ -7,10 +7,10 @@
 [![Measure Coverage](https://sonarqube.com/api/badges/measure?key=com.yo1000:shishamo&metric=code_smells)](https://sonarcloud.io/component_measures/domain/Maintainability?id=com.yo1000:shishamo)
 [![Measure Coverage](https://sonarqube.com/api/badges/measure?key=com.yo1000:shishamo&metric=duplicated_lines_density)](https://sonarcloud.io/component_measures/metric/duplicated_lines_density/list?id=com.yo1000:shishamo)
 
-shishamo is [MySQL](https://www.mysql.com/) metadata visualizer.
+shishamo is a [MySQL](https://www.mysql.com/) metadata visualizer.
 
-"shishamo" means capelin in Japanese, which is known as dolphin's bait.  
-Sakila will definitely like it too.
+"shishamo" means capelins in Japanese, which is dolphin's favorite.
+Sakila definitely likes it too.
 
 ## Quick Start
 
@@ -39,13 +39,13 @@ http://localhost:8080/
 
 ## Embedded MySql
 
-You can use embedded mysql server for demo, testing, development.
+You can use embedded mysql server for demo, testing, and development.
 
 Example:  
 - `java -jar -Dshishamo.embedded.mysql=true shishamo.jar`
 - `./mvnw spring-boot:run -Dshishamo.embedded.mysql=true`  
 
-Also you can customize the configuration by `src/main/resources/embedded-mysql.yml`  
+Also you can change the configuration in `src/main/resources/embedded-mysql.yml`  
 
 Notice:
-Command line argument has more priority than configuration file.
+You can override the default configuration by providing arguments on the command line.
