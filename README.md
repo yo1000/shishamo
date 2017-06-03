@@ -31,7 +31,8 @@ http://localhost:8080/
 ### Demo with embedded MySQL
 
 ```console
-$ ./mvnw clean spring-boot:run -Dshishamo.embedded.mysql=true
+$ ./mvnw clean spring-boot:run \
+    -Dshishamo.embedded.mysql=true
 ```
 
 URL:
