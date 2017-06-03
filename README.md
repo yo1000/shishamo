@@ -1,4 +1,5 @@
 # shishamo
+
 [![Build Status](https://travis-ci.org/yo1000/shishamo.svg?branch=kotlin)](https://travis-ci.org/yo1000/shishamo)
 [![Quality Gate](https://sonarqube.com/api/badges/gate?key=com.yo1000:shishamo)](https://sonarqube.com/dashboard?id=com.yo1000:shishamo)
 [![Measure Coverage](https://sonarqube.com/api/badges/measure?key=com.yo1000:shishamo&metric=ncloc)](https://sonarqube.com/api/badges/measure?key=com.yo1000:shishamo&metric=ncloc)
@@ -27,7 +28,7 @@ $ ./mvnw spring-boot:run \
 URL:
 http://localhost:8080/
 
-### Demo with embedded MySql
+### Demo with embedded MySQL
 
 ```
 ./mvnw spring-boot:run -Dshishamo.embedded.mysql=true
@@ -37,9 +38,9 @@ URL:
 http://localhost:8080/
 
 
-## Embedded MySql
+## Embedded MySQL
 
-You can use embedded mysql server for demo, testing, and development.
+You can use embedded MySQL server for demo, testing, and development.
 
 Example:  
 - `java -jar -Dshishamo.embedded.mysql=true shishamo.jar`
