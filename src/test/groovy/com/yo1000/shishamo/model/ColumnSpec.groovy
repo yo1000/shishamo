@@ -8,35 +8,22 @@ import spock.lang.Specification
 class ColumnSpec extends Specification {
     def 'Get index category'() {
         setup:
-        def column = makeColumn(columnName)
+        def column = new Column(columnName)
 
         and:
         def indices = [
-                makeIndex(Index.Category.PRIMARY, [makeColumn('test1'), makeColumn('test2') ]),
-                makeIndex(Index.Category.UNIQUE, [makeColumn('test1'), makeColumn('test3') ]),
-                makeIndex(Index.Category.PERFORMANCE, [makeColumn('test4'), makeColumn('test5') ])
+                new Index('', [new Column('test1'), new Column('test2') ], Index.Category.PRIMARY),
+                new Index('', [new Column('test1'), new Column('test3') ], Index.Category.UNIQUE),
+                new Index('', [new Column('test4'), new Column('test5') ], Index.Category.PERFORMANCE)
         ]
 
         expect:
-        column.getIndexCategory(indices) == category
+        assert column.getContainedIn(indices).any { it.category == category }
 
         where:
         columnName || category
         'test1'    || Index.Category.PRIMARY
         'test3'    || Index.Category.UNIQUE
         'test4'    || Index.Category.PERFORMANCE
-        'test99'   || null
-    }
-
-    def makeColumn(String name) {
-        return new Column(name)
-    }
-
-    def makeIndex(Index.Category category, List<Column> columns) {
-        return new Index(
-                '',
-                columns,
-                category
-        )
     }
 }

@@ -6,11 +6,23 @@ package com.yo1000.shishamo.model
 open class Column(
         val name: String
 ) {
-    fun getIndexCategory(indices: Collection<Index>): Index.Category? {
+    fun getContainedIn(indices: Collection<Index>): List<Index> {
         return indices.filter {
             it.columns.any {
                 it.name == this.name
             }
-        }.map { it.category }.firstOrNull()
+        }
+    }
+
+    fun indexesPrimary(indices: Collection<Index>): Boolean {
+        return getContainedIn(indices).any { it.category == Index.Category.PRIMARY }
+    }
+
+    fun indexesUnique(indices: Collection<Index>): Boolean {
+        return getContainedIn(indices).any { it.category == Index.Category.UNIQUE }
+    }
+
+    fun indexesPerformance(indices: Collection<Index>): Boolean {
+        return getContainedIn(indices).any { it.category == Index.Category.PERFORMANCE }
     }
 }
