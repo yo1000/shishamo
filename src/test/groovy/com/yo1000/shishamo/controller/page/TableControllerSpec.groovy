@@ -1,6 +1,9 @@
 package com.yo1000.shishamo.controller.page
 
+import com.yo1000.shishamo.embedded.mysql.EmbeddedMySqlUtil
+import com.yo1000.shishamo.model.*
 import com.yo1000.shishamo.service.IndexService
+import com.yo1000.shishamo.service.TableService
 import org.mockito.Mockito
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
@@ -8,10 +11,6 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.mock.mockito.SpyBean
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
-import com.yo1000.shishamo.embedded.mysql.EmbeddedMySqlUtil
-import com.yo1000.shishamo.model.*
-import com.yo1000.shishamo.service.IndexService
-import com.yo1000.shishamo.service.TableService
 import spock.lang.Specification
 import spock.lang.Unroll
 /**
@@ -75,7 +74,7 @@ class TableControllerSpec extends Specification {
         result.andReturn().modelAndView.modelMap.get('parentTableCounts') == parentTableCounts
         result.andReturn().modelAndView.modelMap.get('childTableCounts') == childTableCounts
         result.andReturn().modelAndView.modelMap.get('columnCounts') == columnCounts
-        result.andReturn().modelAndView.modelMap.get('schemaName') == 'sample'
+        result.andReturn().modelAndView.modelMap.get('schemaName') == 'demo'
     }
 
     def 'Get table detail'() {
@@ -105,7 +104,7 @@ class TableControllerSpec extends Specification {
 
         then:
         result.andReturn().modelAndView.modelMap.get('table') == table
-        result.andReturn().modelAndView.modelMap.get('schemaName') == 'sample'
+        result.andReturn().modelAndView.modelMap.get('schemaName') == 'demo'
         result.andReturn().modelAndView.modelMap.get('indices') == indices
         result.andReturn().modelAndView.modelMap.get('createTableStatement') == createTableStatement
 

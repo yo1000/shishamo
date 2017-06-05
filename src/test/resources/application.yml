@@ -3,14 +3,11 @@ spring:
     mode: HTML5
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:12215/sample?useSSL=true
-    name: sample
-    username: sampleUser
-    password: samplePassword
+    url: jdbc:mysql://localhost:12215/demo?useSSL=true
+    name: demo
+    username: demo_user
+    password: demo_password
 
 flyway:
   enabled: false
-  locations: db/sample
-
-mybatis:
-  mapper-locations: mybatis/sql/*.xml
+  locations: db/demo
