@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS `publisher`;
 CREATE TABLE `publisher` (
   `id` int(10) unsigned NOT NULL COMMENT '出版社ID',
   `name` varchar(40) NOT NULL COMMENT '出版社名',

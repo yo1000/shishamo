@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS `book`;
 CREATE TABLE `book` (
   `isbn` bigint(19) NOT NULL COMMENT 'ISBN',
   `title` varchar(128) NOT NULL COMMENT 'タイトル',
