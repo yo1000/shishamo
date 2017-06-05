@@ -4,7 +4,7 @@ jdk:
 
 before_script:
   - '
-    mysql -uroot -e "create database if not exists sample character set utf8"
+    mysql -uroot -e "create database if not exists demo character set utf8"
     '
 
 script:
