@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="_fragments :: head (title='Tables ' + ${schemaName})">
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>Tables sample - shishamo</title>
+    <link rel="stylesheet" href="../static/bootstrap-4.0.0-alpha.6/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="../static/font-awesome-4.7.0/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="../static/app/css/app.css"/>
+</head>
+<body>
+<div th:replace="_fragments :: navbar (activeMenu='table')"></div>
+<div class="container">
+    <div class="page-header">
+        <h1 th:text="${'shishamo of ' + schemaName}">shishamo of sample</h1>
+    </div>
+    <table class="table table-striped table-bordered table-hover table-sm">
+        <thead>
+        <tr>
+            <th>Table</th>
+            <th>Children</th>
+            <th>Parent</th>
+            <th>Columns</th>
+            <th>Rows</th>
+            <th>Comment</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="table : ${tables}">
+            <td><a href="table.html" th:href="@{'/tables/' + ${table.name}}"
+                   th:text="${table.name}">table1</a></td>
+            <td th:text="${childTableCounts[table.name]}"></td>
+            <td th:text="${parentTableCounts[table.name]}">1</td>
+            <td th:text="${columnCounts[table.name]}">4</td>
+            <td th:text="${table.rowSize}">0</td>
+            <td th:text="${table.comment}">書籍</td>
+        </tr>
+        <!--/*-->
+        <tr>
+            <td><a href="table.html">publisher</a></td>
+            <td>1</td>
+            <td></td>
+            <td>2</td>
+            <td>0</td>
+            <td>出版社</td>
+        </tr>
+        <!--*/-->
+        </tbody>
+    </table>
+    <p th:text="'Schema contains ' + ${#lists.size(tables)} + ' tables.'">0 tables.</p>
+</div>
+<div th:replace="_fragments :: foot">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../static/bootstrap-4.0.0-alpha.6/js/bootstrap.min.js"></script>
+</div>
+</body>
+</html>

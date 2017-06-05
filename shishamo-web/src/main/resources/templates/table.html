@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="_fragments :: head (title='Table ' + ${schemaName} + '.' + ${table.name})">
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>Table sample.book - shishamo</title>
+    <link rel="stylesheet" href="../static/bootstrap-4.0.0-alpha.6/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="../static/font-awesome-4.7.0/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="../static/app/css/app.css"/>
+</head>
+<body>
+<div th:replace="_fragments :: navbar (activeMenu='table')"></div>
+<div class="container">
+    <h1>Table</h1>
+    <h2><span th:text="${schemaName} + '.' + ${table.name}">schema.table</span><small class="font-italic ml-1" th:text="${table.comment}">comment</small></h2>
+    <table class="table table-striped table-bordered table-hover table-sm">
+        <thead>
+        <tr>
+            <th>Column</th>
+            <th>Type</th>
+            <th>Nullable</th>
+            <th>Default</th>
+            <th>Children</th>
+            <th>Parent</th>
+            <th>Comment</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="column : ${table.columns}">
+            <td class="index-primary text-danger"
+                th:class="${column.indexesPrimary(indices)}? 'index-primary text-danger'
+                    : (${column.indexesUnique(indices)}? 'index-unique text-warning'
+                    : (${column.indexesPerformance(indices)}? 'index-performance text-info'))">
+                <i class="fa fa-circle" aria-hidden="true"
+                   th:class="${column.indexesPrimary(indices)}? 'fa fa-circle'
+                    : (${column.indexesUnique(indices)}? 'fa fa-dot-circle-o'
+                    : (${column.indexesPerformance(indices)}? 'fa fa-circle-o'
+                    : 'fa fa-circle transparency'))"></i>
+                <span th:text="${column.name}">book</span>
+            </td>
+            <td th:text="${column.type}">bigint(19)</td>
+            <td><span class="glyphicon glyphicon-ok" aria-hidden="true"
+                      th:class="${column.nullable}? 'glyphicon glyphicon-ok'"></span></td>
+            <td th:text="${column.defaultValue}"></td>
+            <td>
+                <ul>
+                    <li th:if="${column.children != null}"
+                       th:each="child: ${column.children}">
+                    <a href="table.html" th:href="@{'/tables/' + ${child.table.name}}"
+                       th:text="${child.table.name}">fuga</a></li>
+                </ul>
+            </td>
+            <td><a href="table.html" th:href="@{'/tables/' + ${column.parent.table.name}}"
+                   th:if="${column.parent != null}"
+                   th:text="${column.parent.table.name}">hoge</a></td>
+            <td th:text="${column.comment}">ISBN</td>
+        </tr>
+        <!--/*-->
+        <tr>
+            <td class="index-unique text-warning">
+                <i class="fa fa-dot-circle-o" aria-hidden="true"></i>
+                title
+            </td>
+            <td>varchar(128)</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>タイトル</td>
+        </tr>
+        <tr>
+            <td class="index-performance text-info">
+                <i class="fa fa-circle-o" aria-hidden="true"></i>
+                title
+            </td>
+            <td>varchar(128)</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>タイトル</td>
+        </tr>
+        <tr>
+            <td>
+                <i class="fa fa-circle-o transparency" aria-hidden="true"></i>
+                title
+            </td>
+            <td>varchar(128)</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>タイトル</td>
+        </tr>
+        <tr>
+            <td>
+                <i class="fa fa-circle-o transparency" aria-hidden="true"></i>
+                title
+            </td>
+            <td>varchar(128)</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>タイトル</td>
+        </tr>
+        <tr>
+            <td>
+                <i class="fa fa-circle-o transparency" aria-hidden="true"></i>
+                title
+            </td>
+            <td>varchar(128)</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>タイトル</td>
+        </tr>
+        <tr>
+            <td>
+                <i class="fa fa-circle-o transparency" aria-hidden="true"></i>
+                title
+            </td>
+            <td>varchar(128)</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>タイトル</td>
+        </tr>
+        <!--*/-->
+        </tbody>
+    </table>
+    <p th:text="'Table contains ' + ${table.rowSize} + ' rows.'">Table contains 0 rows.</p>
+
+    <h2>Indices</h2>
+    <table class="table table-striped table-bordered table-hover table-sm">
+        <thead>
+        <tr>
+            <th>Type</th>
+            <th>Name</th>
+            <th>Columns</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="index : ${indices}">
+            <td class="index-primary text-danger"
+                th:class="${index.primary}? 'index-primary text-danger'
+                : (${index.unique}? 'index-unique text-warning'
+                : (${index.performance}? 'index-performance text-info'))">
+                <i class="fa fa-circle" aria-hidden="true"
+                   th:class="${index.primary}? 'fa fa-circle'
+                    : (${index.unique}? 'fa fa-dot-circle-o'
+                    : (${index.performance}? 'fa fa-circle-o'
+                    : 'fa fa-circle transparency'))"></i>
+                <span th:text="${index.category}">PRIMARY</span>
+            </td>
+            <td th:text="${index.name}">PRIMARY</td>
+            <td><span th:each="column, iterStat : ${index.columns}"
+                      th:text="!${iterStat.last} ? ${column.name} + ', ': ${column.name}">piyo</span>
+            </td>
+        </tr>
+        <!--/*-->
+        <tr>
+            <td class="index-unique text-warning">
+                <i class="fa fa-dot-circle-o" aria-hidden="true"></i>
+                UNIQUE
+            </td>
+            <td>sample unique_key</td>
+            <td><span>hoge,</span><span>fuga</span></td>
+        </tr>
+        <tr>
+            <td class="index-performance text-info">
+                <i class="fa fa-circle-o" aria-hidden="true"></i>
+                PERFORMANCE
+            </td>
+            <td>sample_key</td>
+            <td><span>hoge,</span><span>fuga,</span><span>piyo</span></td>
+        </tr>
+        <!--*/-->
+        </tbody>
+    </table>
+
+    <h2>Create Table</h2>
+    <pre class="card card-block"><code th:text="${createTableStatement.statement}">CREATE TABLE `book` (
+  `isbn` bigint(19) NOT NULL COMMENT 'ISBN',
+  `title` varchar(128) NOT NULL COMMENT 'タイトル',
+  `publisherid` int(10) unsigned NOT NULL COMMENT '出版社ID',
+  `author` varchar(40) NOT NULL COMMENT '著者',
+  PRIMARY KEY (`isbn`),
+  KEY `publisherid` (`publisherid`),
+  CONSTRAINT `book_ibfk_1` FOREIGN KEY (`publisherid`) REFERENCES `publisher` (`publisherid`)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='書籍'</code></pre>
+</div>
+<div th:replace="_fragments :: foot">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../static/bootstrap-4.0.0-alpha.6/js/bootstrap.min.js"></script>
+</div>
+</body>
+</html>

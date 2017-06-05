@@ -1,0 +1,9 @@
+spring:
+  thymeleaf:
+    mode: HTML5
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+
+  jackson:
+      serialization:
+        indent_output: true
