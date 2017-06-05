@@ -15,4 +15,5 @@ script:
         -Dsonar.host.url="https://sonarcloud.io"
         -Dsonar.organization="yo1000-github"
         -Dsonar.login="${SONAR_QUBE_TOKEN}"
+        -Pembedded
     '
