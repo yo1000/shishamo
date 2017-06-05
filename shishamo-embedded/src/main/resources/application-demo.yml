@@ -4,7 +4,3 @@ spring:
     name: demo
     username: demo_user
     password: demo_password
-
-flyway:
-  enabled: true
-  locations: db/demo

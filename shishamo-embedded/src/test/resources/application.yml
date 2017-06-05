@@ -1,13 +1,7 @@
 spring:
-  thymeleaf:
-    mode: HTML5
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
     url: jdbc:mysql://localhost:12215/demo?useSSL=true
     name: demo
     username: demo_user
     password: demo_password
-
-flyway:
-  enabled: false
-  locations: db/demo
