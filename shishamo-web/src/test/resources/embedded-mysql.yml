@@ -1,0 +1,9 @@
+!!EmbeddedMySqlConfig {
+  enable: true,
+  charset: UTF8,
+  port: 12215,
+  version: v5_7_latest,
+  username: demo_user,
+  password: demo_password,
+  schemaName: demo
+}

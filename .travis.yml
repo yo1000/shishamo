@@ -9,6 +9,9 @@ before_script:
 
 script:
   - '
+    sudo apt-get install libaio1
+    '
+  - '
     ./mvnw clean install sonar:sonar
         -Dspring.profiles.active="ci"
         -Dshishamo.embedded.mysql=false
