@@ -33,7 +33,7 @@ http://localhost:8080/
 ### Demo with embedded MySQL
 
 ```console
-$ ./mvnw clean instal
+$ ./mvnw clean install
 $ ./mvnw spring-boot:run            \
     -Dshishamo.embedded.mysql=true  \
     -Dspring.profiles.active=demo   \
@@ -52,7 +52,7 @@ You can use embedded MySQL server for demo, testing, and development.
 Example:
 
 ```console
-$ ./mvnw clean instal
+$ ./mvnw clean install
 $ ./mvnw spring-boot:run            \
     -Dshishamo.embedded.mysql=true  \
     -Pembedded                      \
@@ -60,12 +60,13 @@ $ ./mvnw spring-boot:run            \
 ```
 
 ```console
-$ ./mvnw clean instal
+$ ./mvnw clean install
 $ ./mvnw package    \
     -Pembedded      \
     -pl shishamo-web
 $ java -jar shishamo-web/target/shishamo.jar    \
-    -Dshishamo.embedded.mysql=true
+    --shishamo.embedded.mysql=true              \
+    --spring.profiles.active=demo
 ```
 
 Also you can change the configuration in `src/main/resources/embedded-mysql.yml`  
