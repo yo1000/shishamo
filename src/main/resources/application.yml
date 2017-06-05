@@ -3,18 +3,7 @@ spring:
     mode: HTML5
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:2215/sample?useSSL=true
-    name: sample
-    username: sampleUser
-    password: samplePassword
 
   jackson:
       serialization:
         indent_output: true
-
-flyway:
-  enabled: true
-  locations: db/sample
-
-mybatis:
-  mapper-locations: mybatis/sql/*.xml

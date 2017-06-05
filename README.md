@@ -18,11 +18,11 @@ Sakila definitely likes it too.
 ```console
 $ git clone https://github.com/yo1000/shishamo.git
 $ cd shishamo/
-$ ./mvnw clean spring-boot:run \
-    -Dspring.datasource.url=jdbc:mysql://<host>:<port>/<database> \
-    -Dspring.datasource.name=<schema> \
+$ ./mvnw clean spring-boot:run              \
+    -Dspring.datasource.name=<schema>       \
     -Dspring.datasource.username=<username> \
-    -Dspring.datasource.password=<password>
+    -Dspring.datasource.password=<password> \
+    -Dspring.datasource.url=jdbc:mysql://<host>:<port>/<database>
 ```
 
 URL:
@@ -31,8 +31,10 @@ http://localhost:8080/
 ### Demo with embedded MySQL
 
 ```console
-$ ./mvnw clean spring-boot:run \
-    -Dshishamo.embedded.mysql=true
+$ ./mvnw clean spring-boot:run      \
+    -Dshishamo.embedded.mysql=true  \
+    -Dspring.profiles.active=demo   \
+    -Pembedded
 ```
 
 URL:
@@ -44,8 +46,18 @@ http://localhost:8080/
 You can use embedded MySQL server for demo, testing, and development.
 
 Example:
-- `java -jar -Dshishamo.embedded.mysql=true shishamo.jar`
-- `./mvnw spring-boot:run -Dshishamo.embedded.mysql=true`  
+
+```console
+$ java -jar shishamo.jar            \
+    -Dshishamo.embedded.mysql=true  \
+    -Pembedded
+```
+
+```console
+$ ./mvnw spring-boot:run            \
+    -Dshishamo.embedded.mysql=true  \
+    -Pembedded
+```
 
 Also you can change the configuration in `src/main/resources/embedded-mysql.yml`  
 

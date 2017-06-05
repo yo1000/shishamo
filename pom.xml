@@ -29,6 +29,23 @@
 		<java.version>1.8</java.version>
 	</properties>
 
+    <profiles>
+        <profile>
+            <id>embedded</id>
+            <dependencies>
+                <dependency>
+                    <groupId>com.wix</groupId>
+                    <artifactId>wix-embedded-mysql</artifactId>
+                    <version>2.1.4</version>
+                </dependency>
+                <dependency>
+                    <groupId>org.flywaydb</groupId>
+                    <artifactId>flyway-core</artifactId>
+                </dependency>
+            </dependencies>
+        </profile>
+    </profiles>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.jetbrains.kotlin</groupId>
@@ -59,17 +76,6 @@
 			<artifactId>snakeyaml</artifactId>
 		</dependency>
 
-		<!-- TODO Wixは開発時やUTでのみ使うようにしたい -->
-		<dependency>
-			<groupId>com.wix</groupId>
-			<artifactId>wix-embedded-mysql</artifactId>
-			<version>2.1.4</version>
-		</dependency>
-		<dependency>
-			<groupId>org.flywaydb</groupId>
-			<artifactId>flyway-core</artifactId>
-		</dependency>
-
 		<!-- Runtime -->
 		<dependency>
 			<groupId>mysql</groupId>
@@ -98,14 +104,12 @@
 		<dependency>
 			<groupId>org.spockframework</groupId>
 			<artifactId>spock-core</artifactId>
-			<!-- Boot 1.4 対応のために RC1 を使用する必要がある -->
 			<version>1.1-groovy-2.4</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.spockframework</groupId>
 			<artifactId>spock-spring</artifactId>
-			<!-- Boot 1.4 対応のために RC1 を使用する必要がある -->
 			<version>1.1-groovy-2.4</version>
 			<scope>test</scope>
 		</dependency>

@@ -9,7 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
  * @author yo1000
  */
 @SpringBootApplication
-class ShishamoApplication {
+class Application {
 	companion object {
 		@JvmStatic
 		fun main(args: Array<String>) {
@@ -17,7 +17,7 @@ class ShishamoApplication {
 				EmbeddedMySqlUtil.ready()
 			}
 
-			SpringApplication.run(ShishamoApplication::class.java, *args)
+			SpringApplication.run(Application::class.java, *args)
 		}
 	}
 }

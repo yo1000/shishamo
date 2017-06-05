@@ -3,7 +3,7 @@
   charset: UTF8,
   port: 2215,
   version: v5_7_latest,
-  username: sampleUser,
-  password: samplePassword,
-  schemaName: sample
+  username: demo_user,
+  password: demo_password,
+  schemaName: demo
 }
