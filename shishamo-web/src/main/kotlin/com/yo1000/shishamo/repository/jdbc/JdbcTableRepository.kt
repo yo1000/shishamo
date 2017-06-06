@@ -256,7 +256,7 @@ class JdbcTableRepository(
 
     override fun showCreateTableStatement(table: Table): DataDefinition {
         return jdbcTemplate.query("""
-                SHOW CREATE TABLE ${table.name}
+                SHOW CREATE TABLE `${table.name}`
                 """,
                 { resultSet, _ ->
                     DataDefinition(

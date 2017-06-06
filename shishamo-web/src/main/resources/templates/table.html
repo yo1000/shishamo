@@ -47,13 +47,16 @@
                 <ul>
                     <li th:if="${column.children != null}"
                        th:each="child: ${column.children}">
-                    <a href="table.html" th:href="@{'/tables/' + ${child.table.name}}"
-                       th:text="${child.table.name}">fuga</a></li>
+                    <a href="table.html"
+                       th:if="${!#strings.isEmpty(child.table.name)}"
+                       th:href="@{'/tables/' + ${child.table.name}}"
+                       th:text="${child.table.name} + '.' + ${child.column.name}">fuga</a></li>
                 </ul>
             </td>
-            <td><a href="table.html" th:href="@{'/tables/' + ${column.parent.table.name}}"
-                   th:if="${column.parent != null}"
-                   th:text="${column.parent.table.name}">hoge</a></td>
+            <td><a href="table.html"
+                   th:if="${!#strings.isEmpty(column.parent.table.name)}"
+                   th:href="@{'/tables/' + ${column.parent.table.name}}"
+                   th:text="${column.parent.table.name} + '.' + ${column.parent.column.name}">hoge</a></td>
             <td th:text="${column.comment}">ISBN</td>
         </tr>
         <!--/*-->
