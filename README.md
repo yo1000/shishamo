@@ -35,7 +35,6 @@ http://localhost:8080/
 ```console
 $ ./mvnw clean install
 $ ./mvnw spring-boot:run            \
-    -Dshishamo.embedded.mysql=true  \
     -Dspring.profiles.active=demo   \
     -Pembedded                      \
     -pl shishamo-web
@@ -54,10 +53,11 @@ Example:
 ```console
 $ ./mvnw clean install
 $ ./mvnw spring-boot:run            \
-    -Dshishamo.embedded.mysql=true  \
+    -Dspring.profiles.active=demo   \
     -Pembedded                      \
     -pl shishamo-web
 ```
+
 
 ```console
 $ ./mvnw clean install
@@ -65,7 +65,6 @@ $ ./mvnw package    \
     -Pembedded      \
     -pl shishamo-web
 $ java -jar shishamo-web/target/shishamo.jar    \
-    --shishamo.embedded.mysql=true              \
     --spring.profiles.active=demo
 ```
 
