@@ -1,18 +1,10 @@
 package com.yo1000.shishamo.service
 
-import com.yo1000.shishamo.model.Column
-import com.yo1000.shishamo.model.ColumnDetails
-import com.yo1000.shishamo.model.DataDefinition
-import com.yo1000.shishamo.model.Relation
-import com.yo1000.shishamo.model.Table
-import com.yo1000.shishamo.model.TableDetails
-import com.yo1000.shishamo.repository.TableRepository
-import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties
 import com.yo1000.shishamo.model.*
 import com.yo1000.shishamo.repository.TableRepository
+import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties
 import spock.lang.Specification
 import spock.lang.Unroll
-
 /**
  * @author su-kun1899
  */
@@ -49,20 +41,18 @@ class TableServiceSpec extends Specification {
 
     def 'Get table detail'() {
         given: 'Mocking repository'
-        def expected = new TableDetails(
-                'sample_table',
-                '',
+        def expected = new TableRelation(
+                'sample_table', '', 0L,
                 [
-                        new ColumnDetails(
+                        new ColumnRelation(
                                 'columnA', '', false, 'mysql', 'test1',
                                 new Relation(new Table(''), new Column('')),
                                 Collections.emptyList()),
-                        new ColumnDetails(
+                        new ColumnRelation(
                                 'columnB', '', true, 'oracle', 'test2',
                                 new Relation(new Table(''), new Column('')),
                                 Collections.emptyList())
-                ],
-                0L
+                ]
         )
         tableRepository.select(*_) >> expected
 
@@ -72,7 +62,7 @@ class TableServiceSpec extends Specification {
         then:
         assert table.name == expected.name
         assert table.columns.size() == expected.columns.size()
-        table.columns.eachWithIndex { ColumnDetails column, int i ->
+        table.columns.eachWithIndex { ColumnRelation column, int i ->
             assert column.name == expected.columns[i].name
             assert column.defaultValue == expected.columns[i].defaultValue
             assert column.nullable == expected.columns[i].nullable

@@ -2,7 +2,7 @@ package com.yo1000.shishamo.service
 
 import com.yo1000.shishamo.model.DataDefinition
 import com.yo1000.shishamo.model.Table
-import com.yo1000.shishamo.model.TableDetails
+import com.yo1000.shishamo.model.TableRelation
 import com.yo1000.shishamo.repository.TableRepository
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties
 import org.springframework.stereotype.Service
@@ -21,7 +21,7 @@ class TableService(
     fun get(): List<Table> = tableRepository.selectAll(dataSourceProperties.name)
 
     @Transactional(readOnly = true)
-    fun get(tableName: String): TableDetails = tableRepository.select(dataSourceProperties.name, tableName)
+    fun get(tableName: String): TableRelation = tableRepository.select(dataSourceProperties.name, tableName)
 
     @Transactional(readOnly = true)
     fun getCreateTableStatement(table: Table): DataDefinition = tableRepository.showCreateTableStatement(table)

@@ -1,7 +1,7 @@
 package com.yo1000.shishamo.controller.page
 
 import com.yo1000.shishamo.model.Table
-import com.yo1000.shishamo.model.TableDetails
+import com.yo1000.shishamo.model.TableRelation
 import com.yo1000.shishamo.service.IndexService
 import com.yo1000.shishamo.service.TableService
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties
@@ -37,7 +37,7 @@ class TableController(
 
     @GetMapping(path = arrayOf("{tableName}"))
     fun get(@PathVariable tableName: String, model: Model): String {
-        val table: TableDetails = tableService.get(tableName)
+        val table: TableRelation = tableService.get(tableName)
 
         model.addAttribute("table", table)
         model.addAttribute("createTableStatement", tableService.getCreateTableStatement(table))

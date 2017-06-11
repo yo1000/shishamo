@@ -32,11 +32,11 @@ class TableControllerSpec extends Specification {
     def 'Get all table list'() {
         given: 'Mocking get tables'
         def tables = [
-                new TableDetails(
-                        'table1', '', Collections.emptyList(), 0L
+                new TableRelation(
+                        'table1', '', 0L, Collections.emptyList()
                 ),
-                new TableDetails(
-                        'table2', '', Collections.emptyList(), 0L
+                new TableRelation(
+                        'table2', '', 0L, Collections.emptyList()
                 ),
         ]
 
@@ -73,8 +73,8 @@ class TableControllerSpec extends Specification {
 
     def 'Get table detail'() {
         given: 'Mocking get table'
-        def table = new TableDetails(
-                'table1', '', Collections.emptyList(), 0L
+        def table = new TableRelation(
+                'table1', '', 0L, Collections.emptyList()
         )
 
         Mockito.doReturn(table).when(tableService).get(tableName)

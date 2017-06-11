@@ -27,7 +27,7 @@ class JdbcTableRepository(
         val MAP_KEY_COLUMN = "column"
     }
 
-    override fun selectAll(schemaName: String): List<TableDetails> {
+    override fun selectAll(schemaName: String): List<TableRelation> {
         return jdbcTemplate.query("""
                 SELECT
                     tab.table_name    AS `name`,
@@ -45,7 +45,7 @@ class JdbcTableRepository(
                 ),
                 { resultSet, _ ->
 
-                    TableDetails(
+                    TableRelation(
                             name = resultSet.getString("name"),
                             comment = resultSet.getString("comment"),
                             columns = emptyList(),
@@ -55,7 +55,7 @@ class JdbcTableRepository(
         ) ?: emptyList()
     }
 
-    override fun select(schemaName: String, name: String): TableDetails {
+    override fun select(schemaName: String, name: String): TableRelation {
         return jdbcTemplate.query("""
                 SELECT
                     tab.table_name                AS `name`,
@@ -124,7 +124,7 @@ class JdbcTableRepository(
                         MAP_KEY_ROW_SIZE to it[MAP_KEY_ROW_SIZE]
                 ) }
                 .map { (key, value) ->
-                    TableDetails(
+                    TableRelation(
                             name = key[MAP_KEY_NAME] as String,
                             comment = key[MAP_KEY_COMMENT] as String,
                             rowSize = key[MAP_KEY_ROW_SIZE] as Long,
@@ -138,7 +138,7 @@ class JdbcTableRepository(
                             ) }.map { (key, value) ->
                                 val parent: Map<*, *> = key[MAP_KEY_COLS_PARENT] as Map<*, *>
 
-                                ColumnDetails(
+                                ColumnRelation(
                                         name = key[MAP_KEY_COLS_NAME] as String,
                                         type = key[MAP_KEY_COLS_TYPE] as String,
                                         nullable = key[MAP_KEY_COLS_NULLABLE] as Boolean,
