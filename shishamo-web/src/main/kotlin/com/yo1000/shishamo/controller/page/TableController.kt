@@ -25,7 +25,6 @@ class TableController(
     @GetMapping
     fun get(model: Model): String {
         val tables: List<Table> = tableService.get()
-        model.addAttribute("pageName", "Schema")
         model.addAttribute("schemaName", dataSourceProperties.name)
         model.addAttribute("tables", tables)
 
