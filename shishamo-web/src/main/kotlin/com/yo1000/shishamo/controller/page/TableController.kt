@@ -1,7 +1,8 @@
 package com.yo1000.shishamo.controller.page
 
 import com.yo1000.shishamo.model.Table
-import com.yo1000.shishamo.model.TableDetails
+import com.yo1000.shishamo.model.TableRelation
+import com.yo1000.shishamo.model.TableSearchResult
 import com.yo1000.shishamo.service.IndexService
 import com.yo1000.shishamo.service.TableService
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties
@@ -10,6 +11,7 @@ import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 
 /**
  * @author su-kun1899
@@ -25,19 +27,29 @@ class TableController(
     @GetMapping
     fun get(model: Model): String {
         val tables: List<Table> = tableService.get()
+        model.addAttribute("schemaName", dataSourceProperties.name)
         model.addAttribute("tables", tables)
 
         model.addAttribute("parentTableCounts", tableService.getParentTableCountsByTableName())
         model.addAttribute("childTableCounts", tableService.getChildTableCountsByTableName())
         model.addAttribute("columnCounts", tableService.getColumnCountsByTableName())
-        model.addAttribute("schemaName", dataSourceProperties.name)
 
         return "tables"
     }
 
+    @GetMapping(path = arrayOf("search"))
+    fun getByKeyword(@RequestParam q: String, model: Model): String {
+        val queries: List<String> = q.split(Regex("""[\s　]+""")).filter { it.trim() != "" }
+        val tables: List<TableSearchResult> = tableService.getTablesByQueries(queries)
+        model.addAttribute("queries", queries)
+        model.addAttribute("tables", tables)
+
+        return "search"
+    }
+
     @GetMapping(path = arrayOf("{tableName}"))
     fun get(@PathVariable tableName: String, model: Model): String {
-        val table: TableDetails = tableService.get(tableName)
+        val table: TableRelation = tableService.get(tableName)
 
         model.addAttribute("table", table)
         model.addAttribute("createTableStatement", tableService.getCreateTableStatement(table))

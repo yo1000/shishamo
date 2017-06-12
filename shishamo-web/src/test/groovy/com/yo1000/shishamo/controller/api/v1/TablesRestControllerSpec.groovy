@@ -55,10 +55,9 @@ class TablesRestControllerSpec extends Specification {
 
     def 'Get table detail'() {
         setup: 'Mock service'
-        def table = new TableDetails(
-                tableName, "",
-                [makeColumn(columnNames[0]), makeColumn(columnNames[1])],
-                0L
+        def table = new TableRelation(
+                tableName, "", 0L,
+                [makeColumn(columnNames[0]), makeColumn(columnNames[1])]
         )
         Mockito.doReturn(table).when(tableService).get(Mockito.anyString())
 
@@ -81,9 +80,9 @@ class TablesRestControllerSpec extends Specification {
 
     def 'Get column detail'() {
         setup: 'Prepare expected value'
-        def table = new TableDetails(
-                'sample_table', '',
-                [new ColumnDetails(
+        def table = new TableRelation(
+                'sample_table', '', 0L,
+                [new ColumnRelation(
                         name,
                         type,
                         nullable,
@@ -91,8 +90,7 @@ class TablesRestControllerSpec extends Specification {
                         comment,
                         new Relation(new Table(''), new Column('')),
                         Collections.emptyList()
-                )],
-                0L
+                )]
         )
 
         and: 'URL'
@@ -116,7 +114,7 @@ class TablesRestControllerSpec extends Specification {
     }
 
     def makeColumn(String name) {
-        return new ColumnDetails(
+        return new ColumnRelation(
                 name, '', false, null, '',
                 new Relation(new Table(''), new Column('')),
                 Collections.emptyList()

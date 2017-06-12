@@ -27,7 +27,7 @@ class JdbcTableRepository(
         val MAP_KEY_COLUMN = "column"
     }
 
-    override fun selectAll(schemaName: String): List<TableDetails> {
+    override fun selectAll(schemaName: String): List<TableRelation> {
         return jdbcTemplate.query("""
                 SELECT
                     tab.table_name    AS `name`,
@@ -45,7 +45,7 @@ class JdbcTableRepository(
                 ),
                 { resultSet, _ ->
 
-                    TableDetails(
+                    TableRelation(
                             name = resultSet.getString("name"),
                             comment = resultSet.getString("comment"),
                             columns = emptyList(),
@@ -55,7 +55,7 @@ class JdbcTableRepository(
         ) ?: emptyList()
     }
 
-    override fun select(schemaName: String, name: String): TableDetails {
+    override fun select(schemaName: String, name: String): TableRelation {
         return jdbcTemplate.query("""
                 SELECT
                     tab.table_name                AS `name`,
@@ -124,7 +124,7 @@ class JdbcTableRepository(
                         MAP_KEY_ROW_SIZE to it[MAP_KEY_ROW_SIZE]
                 ) }
                 .map { (key, value) ->
-                    TableDetails(
+                    TableRelation(
                             name = key[MAP_KEY_NAME] as String,
                             comment = key[MAP_KEY_COMMENT] as String,
                             rowSize = key[MAP_KEY_ROW_SIZE] as Long,
@@ -138,7 +138,7 @@ class JdbcTableRepository(
                             ) }.map { (key, value) ->
                                 val parent: Map<*, *> = key[MAP_KEY_COLS_PARENT] as Map<*, *>
 
-                                ColumnDetails(
+                                ColumnRelation(
                                         name = key[MAP_KEY_COLS_NAME] as String,
                                         type = key[MAP_KEY_COLS_TYPE] as String,
                                         nullable = key[MAP_KEY_COLS_NULLABLE] as Boolean,
@@ -160,6 +160,86 @@ class JdbcTableRepository(
                             }
                     )
                 }.first()
+    }
+
+    override fun selectByQueries(schemaName: String, queries: List<String>): List<TableSearchResult> {
+        return jdbcTemplate.query("""
+                SELECT DISTINCT
+                    tbl.table_name      AS `name`,
+                    tbl.table_comment   AS `comment`,
+                    tbl.table_rows      AS `rowSize`,
+                    col.column_name     AS `column_name`,
+                    col.column_type     AS `column_type`,
+                    col.column_default  AS `column_defaultValue`,
+                    col.is_nullable     AS `column_nullable`,
+                    col.column_comment  AS `column_comment`,
+                    col.ordinal_position
+                FROM
+                    (
+                        SELECT
+                            tbl_1.table_name,
+                            tbl_1.table_comment,
+                            tbl_1.table_rows,
+                            tbl_1.table_schema
+                        FROM
+                            information_schema.tables tbl_1
+                        INNER JOIN
+                            information_schema.columns col_1
+                            ON  tbl_1.table_schema  = :schemaName
+                            AND tbl_1.table_schema  = col_1.table_schema
+                            AND tbl_1.table_name    = col_1.table_name
+                        WHERE
+                                tbl_1.table_type = 'BASE TABLE'
+                            AND ( ${(1..queries.size).map { """
+                                    tbl_1.table_name        LIKE CONCAT(CONCAT('%', :keyword_$it), '%')
+                                OR  tbl_1.table_comment     LIKE CONCAT(CONCAT('%', :keyword_$it), '%')
+                                OR  col_1.column_name       LIKE CONCAT(CONCAT('%', :keyword_$it), '%')
+                                OR  col_1.column_comment    LIKE CONCAT(CONCAT('%', :keyword_$it), '%')
+                            """ }.joinToString(separator = " OR ")} )
+                    ) tbl
+                INNER JOIN
+                    information_schema.columns col
+                    ON  tbl.table_schema    = col.table_schema
+                    AND tbl.table_name      = col.table_name
+                ORDER BY
+                    col.ordinal_position
+                """,
+                (1..queries.size).map {
+                    "keyword_$it" to queries[it - 1]
+                }.plus("schemaName" to schemaName).toMap(),
+                { resultSet, _ ->
+                    mapOf(
+                            MAP_KEY_NAME to resultSet.getString("name"),
+                            MAP_KEY_COMMENT to resultSet.getString("comment"),
+                            MAP_KEY_ROW_SIZE to resultSet.getLong("rowSize"),
+                            MAP_KEY_COLS_NAME to resultSet.getString("column_name"),
+                            MAP_KEY_COLS_TYPE to resultSet.getString("column_type"),
+                            MAP_KEY_COLS_NULLABLE to resultSet.getBoolean("column_nullable"),
+                            MAP_KEY_COLS_DEFAULT_VALUE to resultSet.getString("column_defaultValue"),
+                            MAP_KEY_COLS_COMMENT to resultSet.getString("column_comment")
+                    )
+                })
+                .groupBy { mapOf(
+                        MAP_KEY_NAME to it[MAP_KEY_NAME],
+                        MAP_KEY_COMMENT to it[MAP_KEY_COMMENT],
+                        MAP_KEY_ROW_SIZE to it[MAP_KEY_ROW_SIZE]
+                ) }
+                .map { (key, value) ->
+                    TableSearchResult(
+                            name = key[MAP_KEY_NAME] as String,
+                            comment = key[MAP_KEY_COMMENT] as String,
+                            rowSize = key[MAP_KEY_ROW_SIZE] as Long,
+                            columns = value.map {
+                                ColumnDetails(
+                                        name = it[MAP_KEY_COLS_NAME] as String,
+                                        type = it[MAP_KEY_COLS_TYPE] as String,
+                                        nullable = it[MAP_KEY_COLS_NULLABLE] as Boolean,
+                                        defaultValue = it[MAP_KEY_COLS_DEFAULT_VALUE] as String?,
+                                        comment = it[MAP_KEY_COLS_COMMENT] as String
+                                )
+                            }
+                    )
+                }
     }
 
     override fun selectParentTableCountsByTableName(schemaName: String): Map<String, ReferredTable> {
