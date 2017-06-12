@@ -3,6 +3,7 @@ package com.yo1000.shishamo.service
 import com.yo1000.shishamo.model.DataDefinition
 import com.yo1000.shishamo.model.Table
 import com.yo1000.shishamo.model.TableRelation
+import com.yo1000.shishamo.model.TableSearchResult
 import com.yo1000.shishamo.repository.TableRepository
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties
 import org.springframework.stereotype.Service
@@ -18,13 +19,20 @@ class TableService(
         val tableRepository: TableRepository
 ) {
     @Transactional(readOnly = true)
-    fun get(): List<Table> = tableRepository.selectAll(dataSourceProperties.name)
+    fun get(): List<Table> = tableRepository
+            .selectAll(dataSourceProperties.name)
 
     @Transactional(readOnly = true)
-    fun get(tableName: String): TableRelation = tableRepository.select(dataSourceProperties.name, tableName)
+    fun get(tableName: String): TableRelation = tableRepository
+            .select(dataSourceProperties.name, tableName)
 
     @Transactional(readOnly = true)
-    fun getCreateTableStatement(table: Table): DataDefinition = tableRepository.showCreateTableStatement(table)
+    fun getTablesByKeyword(keywords: List<String>): List<TableSearchResult> = tableRepository
+            .selectByKeyword(dataSourceProperties.name, keywords)
+
+    @Transactional(readOnly = true)
+    fun getCreateTableStatement(table: Table): DataDefinition = tableRepository
+            .showCreateTableStatement(table)
 
     /**
      * @return Key: table, Value: Parent table's references

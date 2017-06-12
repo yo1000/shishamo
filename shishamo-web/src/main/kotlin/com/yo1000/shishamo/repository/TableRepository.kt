@@ -1,9 +1,6 @@
 package com.yo1000.shishamo.repository
 
-import com.yo1000.shishamo.model.DataDefinition
-import com.yo1000.shishamo.model.ReferredTable
-import com.yo1000.shishamo.model.Table
-import com.yo1000.shishamo.model.TableRelation
+import com.yo1000.shishamo.model.*
 
 /**
  * @author su-kun1899
@@ -12,6 +9,7 @@ import com.yo1000.shishamo.model.TableRelation
 interface TableRepository {
     fun selectAll(schemaName: String): List<TableRelation>
     fun select(schemaName: String, name: String): TableRelation
+    fun selectByKeyword(schemaName: String, keywords: List<String>): List<TableSearchResult>
     fun selectParentTableCountsByTableName(schemaName: String): Map<String, ReferredTable>
     fun selectChildTableCountsByTableName(schemaName: String): Map<String, ReferredTable>
     fun selectColumnCountsByTableName(schemaName: String): Map<String, ReferredTable>

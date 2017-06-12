@@ -60,6 +60,16 @@ a:visited {
     margin: 24px 0 12px 0;
 }
 
+.h2 code,
+h2 code {
+    margin-right: .5rem;
+}
+
+/*.table,*/
+/*table {*/
+    /*table-layout: fixed;*/
+/*}*/
+
 .table,
 table,
 p {
@@ -73,6 +83,16 @@ table ul {
     padding: 0;
 
     list-style: none;
+}
+
+.ellipsis {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.ellipsis-container {
+    max-width: 20rem;
 }
 
 .navbar-brand,

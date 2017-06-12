@@ -12,4 +12,12 @@ class TableSearchResult(
         name,
         comment,
         rowSize
-)
+) {
+    fun getColumnsAsString(): String {
+        return columns.map {
+            "${it.name} ${it.comment}"
+        }.joinToString(
+                separator = ", "
+        )
+    }
+}
