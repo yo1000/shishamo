@@ -27,8 +27,8 @@ class TableService(
             .select(dataSourceProperties.name, tableName)
 
     @Transactional(readOnly = true)
-    fun getTablesByKeyword(keywords: List<String>): List<TableSearchResult> = tableRepository
-            .selectByKeyword(dataSourceProperties.name, keywords)
+    fun getTablesByQueries(queries: List<String>): List<TableSearchResult> = tableRepository
+            .selectByQueries(dataSourceProperties.name, queries)
 
     @Transactional(readOnly = true)
     fun getCreateTableStatement(table: Table): DataDefinition = tableRepository

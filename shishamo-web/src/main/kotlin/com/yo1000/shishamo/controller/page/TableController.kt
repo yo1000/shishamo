@@ -38,10 +38,10 @@ class TableController(
     }
 
     @GetMapping(path = arrayOf("search"))
-    fun getByKeyword(@RequestParam keyword: String, model: Model): String {
-        val keywords: List<String> = keyword.split(Regex("""[\s　]+"""))
-        val tables: List<TableSearchResult> = tableService.getTablesByKeyword(keywords)
-        model.addAttribute("keywords", keywords)
+    fun getByKeyword(@RequestParam q: String, model: Model): String {
+        val queries: List<String> = q.split(Regex("""[\s　]+""")).filter { it.trim() != "" }
+        val tables: List<TableSearchResult> = tableService.getTablesByQueries(queries)
+        model.addAttribute("queries", queries)
         model.addAttribute("tables", tables)
 
         return "search"

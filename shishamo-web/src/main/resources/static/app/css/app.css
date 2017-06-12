@@ -1,4 +1,4 @@
-#site-logo {
+object {
     pointer-events: none;
 }
 
@@ -105,23 +105,18 @@ table ul {
     padding: 17px 15px;
 }
 
+.btn-outline-warning {
+    color: #f49200;
+    border-color: #f49200;
+}
+
+.btn-outline-warning:hover {
+    background-color: #f49200;
+    border-color: #f49200;
+}
+
 .container {
     margin-top: 30px;
-}
-
-.index-primary {
-    border-left-color: red;
-    border-left-width: .25rem;
-}
-
-.index-unique {
-    border-left-color: red;
-    border-left-width: .25rem;
-}
-
-.index-performance {
-    border-left-color: red;
-    border-left-width: .25rem;
 }
 
 .transparency {

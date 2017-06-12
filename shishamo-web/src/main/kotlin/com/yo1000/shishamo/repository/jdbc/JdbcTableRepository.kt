@@ -162,7 +162,7 @@ class JdbcTableRepository(
                 }.first()
     }
 
-    override fun selectByKeyword(schemaName: String, keywords: List<String>): List<TableSearchResult> {
+    override fun selectByQueries(schemaName: String, queries: List<String>): List<TableSearchResult> {
         return jdbcTemplate.query("""
                 SELECT DISTINCT
                     tbl.table_name      AS `name`,
@@ -190,7 +190,7 @@ class JdbcTableRepository(
                             AND tbl_1.table_name    = col_1.table_name
                         WHERE
                                 tbl_1.table_type = 'BASE TABLE'
-                            AND ( ${(1..keywords.size).map { """
+                            AND ( ${(1..queries.size).map { """
                                     tbl_1.table_name        LIKE CONCAT(CONCAT('%', :keyword_$it), '%')
                                 OR  tbl_1.table_comment     LIKE CONCAT(CONCAT('%', :keyword_$it), '%')
                                 OR  col_1.column_name       LIKE CONCAT(CONCAT('%', :keyword_$it), '%')
@@ -204,8 +204,8 @@ class JdbcTableRepository(
                 ORDER BY
                     col.ordinal_position
                 """,
-                (1..keywords.size).map {
-                    "keyword_$it" to keywords[it - 1]
+                (1..queries.size).map {
+                    "keyword_$it" to queries[it - 1]
                 }.plus("schemaName" to schemaName).toMap(),
                 { resultSet, _ ->
                     mapOf(
