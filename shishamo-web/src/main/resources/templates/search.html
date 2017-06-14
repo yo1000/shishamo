@@ -15,27 +15,50 @@
     <div class="page-header">
         <h1>Search results</h1>
     </div>
-    <h2>for: <code th:each="q : ${queries}" th:text="${q}">query</code></h2>
+    <h2>for: <em class="search-result-query" th:each="q : ${queries}" th:text="${q}">query</em>
+        <a class="search-result-query-link" href="/tables/search?q="
+           th:href="@{'/tables/search?q=' + ${queriesAsUrlParam}}"><i class="fa fa-link"></i></a>
+    </h2>
     <table class="table table-striped table-bordered table-hover table-sm">
         <thead>
         <tr>
             <th>Table</th>
             <th>Columns</th>
-            <th>Comment</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="table : ${tables}">
-            <td><a href="table.html" th:href="@{'/tables/' + ${table.name}}"
-                   th:text="${table.name}">table1</a></td>
-            <td class="ellipsis-container"><div class="ellipsis" th:text="${table.columnsAsString}">col1 COL1, col2 COL2, ..</div></td>
-            <td th:text="${table.comment}">書籍</td>
+            <td><a href="table.html"
+                    class="search-result-table"
+                    th:classappend="${table.nameHit} ? 'search-result-hit' : ''"
+                    th:href="@{'/tables/' + ${table.name}}"><span
+                    class="search-result-name"
+                    th:text="${table.name}">table-name</span><span
+                    class="search-result-comment"
+                    th:text="${table.comment}">table-comment</span></a></td>
+            <td class="ellipsis-container"><div class="ellipsis">
+                <span class="search-result-column search-result-hit" th:each="col, stat : ${table.hitColumns}"><span
+                        class="search-result-name"
+                        th:text="${col.name}"></span><span
+                        class="search-result-comment"
+                        th:if="${!#strings.isEmpty(col.comment)}"
+                        th:text="${col.comment}"></span></span>
+                <span class="search-result-column" th:each="col, stat : ${table.mishitColumns}"><span
+                        class="search-result-name"
+                        th:text="${col.name}"></span><span
+                        class="search-result-comment"
+                        th:if="${!#strings.isEmpty(col.comment)}"
+                        th:text="${col.comment}"></span></span>
+                <!--/*-->
+                ,<span>col2 COL2</span>
+                ,<span>..</span>
+                <!--*/-->
+            </div></td>
         </tr>
         <!--/*-->
         <tr>
             <td><a href="table.html">publisher</a></td>
             <td>col1 COL1, col2 COL2, ..</td>
-            <td>出版社</td>
         </tr>
         <!--*/-->
         </tbody>

@@ -42,6 +42,7 @@ class TableController(
         val queries: List<String> = q.split(Regex("""[\s　]+""")).filter { it.trim() != "" }
         val tables: List<TableSearchResult> = tableService.getTablesByQueries(queries)
         model.addAttribute("queries", queries)
+        model.addAttribute("queriesAsUrlParam", queries.joinToString(separator = "+"))
         model.addAttribute("tables", tables)
 
         return "search"

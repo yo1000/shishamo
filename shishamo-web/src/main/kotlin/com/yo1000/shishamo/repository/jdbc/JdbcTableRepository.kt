@@ -237,7 +237,8 @@ class JdbcTableRepository(
                                         defaultValue = it[MAP_KEY_COLS_DEFAULT_VALUE] as String?,
                                         comment = it[MAP_KEY_COLS_COMMENT] as String
                                 )
-                            }
+                            },
+                            queries = queries
                     )
                 }
     }
