@@ -86,7 +86,17 @@ table ul {
     white-space: nowrap;
 }
 
-.ellipsis-container {
+.ellipsis-container-search-columns {
+    max-width: 20rem;
+}
+
+.ellipsis-container-table-column,
+.ellipsis-container-table-parent,
+.ellipsis-container-table-children {
+    max-width: 8rem;
+}
+
+.ellipsis-container-table-comment {
     max-width: 20rem;
 }
 

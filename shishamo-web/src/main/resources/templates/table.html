@@ -28,49 +28,78 @@
         </thead>
         <tbody>
         <tr th:each="column : ${table.columns}">
-            <td class="index-primary text-danger"
-                th:class="${column.indexesPrimary(indices)}? 'index-primary text-danger'
+            <td class="ellipsis-container-table-column"
+                th:classappend="${column.indexesPrimary(indices)}? 'index-primary text-danger'
                     : (${column.indexesUnique(indices)}? 'index-unique text-warning'
                     : (${column.indexesPerformance(indices)}? 'index-performance text-info'))">
-                <i class="fa fa-circle" aria-hidden="true"
-                   th:class="${column.indexesPrimary(indices)}? 'fa fa-circle'
+                <div class="ellipsis">
+                    <i class="fa fa-circle-o transparency" aria-hidden="true"
+                       th:class="${column.indexesPrimary(indices)}? 'fa fa-circle'
                     : (${column.indexesUnique(indices)}? 'fa fa-dot-circle-o'
                     : (${column.indexesPerformance(indices)}? 'fa fa-circle-o'
                     : 'fa fa-circle transparency'))"></i>
-                <span th:text="${column.name}">book</span>
+                    <span th:text="${column.name}">book</span>
+                </div>
             </td>
             <td th:text="${column.type}">bigint(19)</td>
-            <td><span class="glyphicon glyphicon-ok" aria-hidden="true"
-                      th:class="${column.nullable}? 'glyphicon glyphicon-ok'"></span></td>
+            <td class="text-center">
+                <i class="fa fa-check" aria-hidden="true"
+                   th:if="${column.nullable}"></i>
+            </td>
             <td th:text="${column.defaultValue}"></td>
-            <td>
-                <ul>
+            <td class="ellipsis-container-table-children">
+                <ul class="ellipsis">
                     <li th:if="${column.children != null}"
-                       th:each="child: ${column.children}">
+                        th:each="child: ${column.children}">
                     <a href="table.html"
                        th:if="${!#strings.isEmpty(child.table.name)}"
                        th:href="@{'/tables/' + ${child.table.name}}"
                        th:text="${child.table.name} + '.' + ${child.column.name}">fuga</a></li>
                 </ul>
             </td>
-            <td><a href="table.html"
-                   th:if="${!#strings.isEmpty(column.parent.table.name)}"
-                   th:href="@{'/tables/' + ${column.parent.table.name}}"
-                   th:text="${column.parent.table.name} + '.' + ${column.parent.column.name}">hoge</a></td>
-            <td th:text="${column.comment}">ISBN</td>
+            <td class="ellipsis-container-table-parent"><div class="ellipsis"><a
+                    href="table.html"
+                    th:if="${!#strings.isEmpty(column.parent.table.name)}"
+                    th:href="@{'/tables/' + ${column.parent.table.name}}"
+                    th:text="${column.parent.table.name} + '.' + ${column.parent.column.name}">hoge</a></div></td>
+            <td class="ellipsis-container-table-comment">
+                <div class="ellipsis"
+                     th:text="${column.comment}">ISBN</div>
+            </td>
         </tr>
         <!--/*-->
         <tr>
-            <td class="index-unique text-warning">
-                <i class="fa fa-dot-circle-o" aria-hidden="true"></i>
-                title
+            <td class="index-primary text-danger ellipsis-container-table-column">
+                <div class="ellipsis"><i class="fa fa-dot-circle-o" aria-hidden="true"></i> title6789a123456789b123456789c123456789d123456789e123456789f123456789g123456789h123456789i123456789j</div>
+            </td>
+            <td>bigint(1024) unsigned</td>
+            <td class="text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+            <td></td>
+            <td class="ellipsis-container-table-children">
+                <ul>
+                    <li class="ellipsis"><a href="#">child6789a123456789b123456789c123456789d123456789e123456789f123456789g123456789h123456789i123456789j</a></li>
+                    <li class="ellipsis"><a href="#">child6789a123456789b123456789c123456789d123456789e123456789f123456789g123456789h123456789i123456789j</a></li>
+                    <li class="ellipsis"><a href="#">child6789a123456789b123456789c123456789d123456789e123456789f123456789g123456789h123456789i123456789j</a></li>
+                    <li class="ellipsis"><a href="#">child6789a123456789b123456789c123456789d123456789e123456789f123456789g123456789h123456789i123456789j</a></li>
+                </ul>
+            </td>
+            <td class="ellipsis-container-table-parent"><div class="ellipsis"><a href="#">parent789a123456789b123456789c123456789d123456789e123456789f123456789g123456789h123456789i123456789j</a></div></td>
+            <td class="ellipsis-container-table-comment">
+                <div class="ellipsis">タイトル9a123456789b123456789c123456789d123456789e123456789f123456789g123456789h123456789i123456789j</div>
+            </td>
+        </tr>
+        <tr>
+            <td class="index-unique text-warning ellipsis-container-table-column">
+                <div class="ellipsis"><i class="fa fa-dot-circle-o" aria-hidden="true"></i> title</div>
             </td>
             <td>varchar(128)</td>
             <td></td>
             <td></td>
             <td></td>
             <td></td>
-            <td>タイトル</td>
+            <td class="ellipsis-container-table-comment">
+                <div class="ellipsis">タイトル</div>
+            </td>
         </tr>
         <tr>
             <td class="index-performance text-info">
