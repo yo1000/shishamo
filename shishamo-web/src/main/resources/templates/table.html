@@ -50,8 +50,9 @@
             </td>
             <td th:text="${column.defaultValue}"></td>
             <td class="ellipsis-container-table-children">
-                <ul class="ellipsis">
-                    <li th:if="${column.children != null}"
+                <ul>
+                    <li class="ellipsis"
+                        th:if="${column.children != null}"
                         th:each="child: ${column.children}">
                     <a href="table.html"
                        th:if="${!#strings.isEmpty(child.table.name)}"
