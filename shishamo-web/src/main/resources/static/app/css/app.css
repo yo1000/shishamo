@@ -90,6 +90,10 @@ table ul {
     max-width: 20rem;
 }
 
+.ellipsis-container-table-type {
+    max-width: 8rem;
+}
+
 .ellipsis-container-table-column,
 .ellipsis-container-table-parent,
 .ellipsis-container-table-children {

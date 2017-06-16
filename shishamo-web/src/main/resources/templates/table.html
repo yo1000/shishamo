@@ -41,7 +41,9 @@
                     <span th:text="${column.name}">book</span>
                 </div>
             </td>
-            <td th:text="${column.type}">bigint(19)</td>
+            <td class="ellipsis-container-table-type">
+                <div class="ellipsis" th:text="${column.type}">bigint(19)</div>
+            </td>
             <td class="text-center">
                 <i class="fa fa-check" aria-hidden="true"
                    th:if="${column.nullable}"></i>
@@ -72,7 +74,9 @@
             <td class="index-primary text-danger ellipsis-container-table-column">
                 <div class="ellipsis"><i class="fa fa-dot-circle-o" aria-hidden="true"></i> title6789a123456789b123456789c123456789d123456789e123456789f123456789g123456789h123456789i123456789j</div>
             </td>
-            <td>bigint(1024) unsigned</td>
+            <td class="ellipsis-container-table-type">
+                <div class="ellipsis">bigint(1024) unsigned</div>
+            </td>
             <td class="text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
             <td></td>
             <td class="ellipsis-container-table-children">
