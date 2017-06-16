@@ -133,10 +133,29 @@ class JdbcTableRepository(
                                     MAP_KEY_COLS_TYPE to it[MAP_KEY_COLS_TYPE],
                                     MAP_KEY_COLS_NULLABLE to it[MAP_KEY_COLS_NULLABLE],
                                     MAP_KEY_COLS_DEFAULT_VALUE to it[MAP_KEY_COLS_DEFAULT_VALUE],
-                                    MAP_KEY_COLS_COMMENT to it[MAP_KEY_COLS_COMMENT],
-                                    MAP_KEY_COLS_PARENT to it[MAP_KEY_COLS_PARENT]
+                                    MAP_KEY_COLS_COMMENT to it[MAP_KEY_COLS_COMMENT]
                             ) }.map { (key, value) ->
-                                val parent: Map<*, *> = key[MAP_KEY_COLS_PARENT] as Map<*, *>
+                                val parent: Relation = value.map {
+                                    it[MAP_KEY_COLS_PARENT] as Map<*, *>?
+                                }.map {
+                                    it?.let {
+                                        Relation(
+                                                table = Table(it[MAP_KEY_TABLE] as String),
+                                                column = Column(it[MAP_KEY_COLUMN] as String)
+                                        )
+                                    }
+                                }.filterNotNull().firstOrNull()?: Relation(Table(""), Column(""))
+
+                                val children: List<Relation> = value.map {
+                                    it[MAP_KEY_COLS_CHILDREN] as Map<*, *>?
+                                }.map {
+                                    it?.let {
+                                        Relation(
+                                                table = Table(it[MAP_KEY_TABLE] as String),
+                                                column = Column(it[MAP_KEY_COLUMN] as String)
+                                        )
+                                    }
+                                }.filterNotNull()
 
                                 ColumnRelation(
                                         name = key[MAP_KEY_COLS_NAME] as String,
@@ -144,18 +163,8 @@ class JdbcTableRepository(
                                         nullable = key[MAP_KEY_COLS_NULLABLE] as Boolean,
                                         defaultValue = key[MAP_KEY_COLS_DEFAULT_VALUE] as String?,
                                         comment = key[MAP_KEY_COLS_COMMENT] as String,
-                                        parent = Relation(
-                                                table =  Table(parent[MAP_KEY_TABLE] as String),
-                                                column =  Column(parent[MAP_KEY_COLUMN] as String)
-                                        ),
-                                        children = value.map {
-                                            val child: Map<*, *> = it[MAP_KEY_COLS_CHILDREN] as Map<*, *>
-
-                                            Relation(
-                                                    table = Table(child[MAP_KEY_TABLE] as String),
-                                                    column = Column(child[MAP_KEY_COLUMN] as String)
-                                            )
-                                        }
+                                        parent = parent,
+                                        children = children
                                 )
                             }
                     )
