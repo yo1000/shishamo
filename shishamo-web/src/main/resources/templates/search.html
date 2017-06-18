@@ -31,24 +31,30 @@
             <td class="ellipsis-container-search-table"><div class="ellipsis"><a href="table.html"
                     class="search-result-table"
                     th:classappend="${table.nameHit} ? 'search-result-hit' : ''"
-                    th:href="@{'/tables/' + ${table.name}}"><span
+                    th:href="@{'/tables/' + ${table.name}}"><ruby><span
                     class="search-result-name"
-                    th:text="${table.name}">table-name</span><span
+                    th:text="${table.name}">table-name</span><rt
                     class="search-result-comment"
-                    th:text="${table.comment}">table-comment</span></a></div></td>
+                    th:text="${table.comment}">table-comment</rt></ruby></a></div></td>
             <td class="ellipsis-container-search-columns"><div class="ellipsis">
-                <span class="search-result-column search-result-hit" th:each="col, stat : ${table.hitColumns}"><span
+                <span th:each="col, stat : ${table.hitColumns}"><span
+                        class="search-result-separator"
+                        th:if="${stat.index >= 1}">&nbsp;/&nbsp;</span><ruby
+                        class="search-result-column search-result-hit"><span
                         class="search-result-name"
-                        th:text="${col.name}"></span><span
+                        th:text="${col.name}"></span><rt
                         class="search-result-comment"
                         th:if="${!#strings.isEmpty(col.comment)}"
-                        th:text="${col.comment}"></span></span>
-                <span class="search-result-column" th:each="col, stat : ${table.mishitColumns}"><span
+                        th:text="${col.comment}"></rt></ruby></span><span
+                    th:each="col, stat : ${table.hitColumns}"><span
+                        class="search-result-separator"
+                        th:if="${!#lists.isEmpty(table.hitColumns)} or ${stat.index >= 1}">&nbsp;/&nbsp;</span><ruby
+                        class="search-result-column" th:each="col, stat : ${table.mishitColumns}"><span
                         class="search-result-name"
-                        th:text="${col.name}"></span><span
+                        th:text="${col.name}"></span><rt
                         class="search-result-comment"
                         th:if="${!#strings.isEmpty(col.comment)}"
-                        th:text="${col.comment}"></span></span>
+                        th:text="${col.comment}"></rt></ruby></span>
                 <!--/*-->
                 ,<span>col2 COL2</span>
                 ,<span>..</span>
