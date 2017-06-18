@@ -46,10 +46,10 @@
                         class="search-result-comment"
                         th:if="${!#strings.isEmpty(col.comment)}"
                         th:text="${col.comment}"></rt></ruby></span><span
-                    th:each="col, stat : ${table.hitColumns}"><span
+                    th:each="col, stat : ${table.mishitColumns}"><span
                         class="search-result-separator"
                         th:if="${!#lists.isEmpty(table.hitColumns)} or ${stat.index >= 1}">&nbsp;/&nbsp;</span><ruby
-                        class="search-result-column" th:each="col, stat : ${table.mishitColumns}"><span
+                        class="search-result-column"><span
                         class="search-result-name"
                         th:text="${col.name}"></span><rt
                         class="search-result-comment"
