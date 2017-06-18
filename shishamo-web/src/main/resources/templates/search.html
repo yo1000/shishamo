@@ -28,14 +28,14 @@
         </thead>
         <tbody>
         <tr th:each="table : ${tables}">
-            <td><a href="table.html"
+            <td class="ellipsis-container-search-table"><div class="ellipsis"><a href="table.html"
                     class="search-result-table"
                     th:classappend="${table.nameHit} ? 'search-result-hit' : ''"
                     th:href="@{'/tables/' + ${table.name}}"><span
                     class="search-result-name"
                     th:text="${table.name}">table-name</span><span
                     class="search-result-comment"
-                    th:text="${table.comment}">table-comment</span></a></td>
+                    th:text="${table.comment}">table-comment</span></a></div></td>
             <td class="ellipsis-container-search-columns"><div class="ellipsis">
                 <span class="search-result-column search-result-hit" th:each="col, stat : ${table.hitColumns}"><span
                         class="search-result-name"

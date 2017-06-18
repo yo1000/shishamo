@@ -86,8 +86,12 @@ table ul {
     white-space: nowrap;
 }
 
+.ellipsis-container-search-table {
+    max-width: 30rem;
+}
+
 .ellipsis-container-search-columns {
-    max-width: 20rem;
+    max-width: 40rem;
 }
 
 .ellipsis-container-table-type {
