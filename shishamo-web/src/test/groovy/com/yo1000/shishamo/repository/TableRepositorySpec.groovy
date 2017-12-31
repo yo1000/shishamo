@@ -116,6 +116,7 @@ class TableRepositorySpec extends Specification {
         table.getColumns().get(0).getDefaultValue() == null
         table.getColumns().get(0).getComment() == 'ISBN'
         assert !table.getColumns().get(0).getNullable()
+        table.columns[0].parent.table.name == 'book_notes'
 
         and:
         table.getColumns().get(1).getName() == 'title'
