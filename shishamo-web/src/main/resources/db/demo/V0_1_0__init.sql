@@ -25,9 +25,17 @@ CREATE TABLE `animals` (
   `references_id`   int(10) unsigned  NOT NULL  COMMENT 'References ID',
   PRIMARY KEY(`id`),
   UNIQUE KEY  `uq_animals_scientific_name` (`scientific_name`),
-  CONSTRAINT  `fk_animals_families_id`   FOREIGN KEY (`families_id`)   REFERENCES `families`   (`id`),
-  CONSTRAINT  `fk_animals_references_id` FOREIGN KEY (`references_id`) REFERENCES `references` (`id`)
+  CONSTRAINT  `fk_animals_families_id`    FOREIGN KEY (`families_id`)   REFERENCES `families`   (`id`),
+  CONSTRAINT  `fk_animals_references_id`  FOREIGN KEY (`references_id`) REFERENCES `references` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Animals';
+
+DROP TABLE IF EXISTS `impressions`;
+CREATE TABLE `impressions` (
+  `id`          int(10) unsigned  NOT NULL  COMMENT 'ID',
+  `impression`  varchar(80)       NOT NULL  COMMENT 'Impression',
+  PRIMARY KEY(`id`),
+  CONSTRAINT  `fk_impressions_animals_id` FOREIGN KEY (`id`)  REFERENCES `animals`  (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Impressions';
 
 INSERT INTO `references` (`id`, `url`) VALUES (1100, 'https://en.wikipedia.org/wiki/Smelt_(fish)');
 INSERT INTO `references` (`id`, `url`) VALUES (1200, 'https://en.wikipedia.org/wiki/Oceanic_dolphin');

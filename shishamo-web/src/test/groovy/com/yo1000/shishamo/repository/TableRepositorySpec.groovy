@@ -72,6 +72,14 @@ class TableRepositorySpec extends Specification {
                       PRIMARY KEY (`publisherid`)
                     ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='出版社'
                 """),
+                sql('DROP TABLE IF EXISTS `book_notes`'),
+                sql("""
+                    CREATE TABLE `book_notes` (
+                      `isbn` bigint(19) NOT NULL COMMENT 'ISBN',
+                      `note` varchar(40) NOT NULL COMMENT '備考',
+                      PRIMARY KEY (`isbn`)
+                    ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='書籍備考'
+                """),
                 sql('DROP TABLE IF EXISTS `book`'),
                 sql("""
                     CREATE TABLE `book` (
@@ -81,7 +89,8 @@ class TableRepositorySpec extends Specification {
                       `author` varchar(40) NOT NULL COMMENT '著者',
                       PRIMARY KEY (`isbn`),
                       KEY `publisherid` (`publisherid`),
-                      CONSTRAINT `book_ibfk_1` FOREIGN KEY (`publisherid`) REFERENCES `publisher` (`publisherid`)
+                      CONSTRAINT `book_ibfk_1` FOREIGN KEY (`publisherid`) REFERENCES `publisher`  (`publisherid`),
+                      CONSTRAINT `isbn`        FOREIGN KEY (`isbn`)        REFERENCES `book_notes` (`isbn`)
                     ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='書籍'
                 """),
                 insertInto('book')
@@ -107,6 +116,7 @@ class TableRepositorySpec extends Specification {
         table.getColumns().get(0).getDefaultValue() == null
         table.getColumns().get(0).getComment() == 'ISBN'
         assert !table.getColumns().get(0).getNullable()
+        table.columns[0].parent.table.name == 'book_notes'
 
         and:
         table.getColumns().get(1).getName() == 'title'
@@ -133,6 +143,7 @@ class TableRepositorySpec extends Specification {
         cleanup:
         new DbSetup(destination, sequenceOf(
                 sql('SET foreign_key_checks = 0'),
+                sql('DROP TABLE IF EXISTS `book_notes`'),
                 sql('DROP TABLE IF EXISTS `publisher`'),
                 sql('DROP TABLE IF EXISTS `book`'),
                 sql('SET foreign_key_checks = 1')
