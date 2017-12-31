@@ -64,12 +64,21 @@ class TableRepositorySpec extends Specification {
         given:
         new DbSetup(destination, sequenceOf(
                 sql('SET foreign_key_checks = 0'),
+                sql('DROP TABLE IF EXISTS `publisher_notes`'),
+                sql("""
+                    CREATE TABLE `publisher_notes` (
+                      `publisherid` int(10) unsigned NOT NULL COMMENT '出版社ID',
+                      `note` varchar(40) NOT NULL COMMENT '備考',
+                      PRIMARY KEY (`publisherid`)
+                    ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='出版社備考'
+                """),
                 sql('DROP TABLE IF EXISTS `publisher`'),
                 sql("""
                     CREATE TABLE `publisher` (
                       `publisherid` int(10) unsigned NOT NULL COMMENT '出版社ID',
                       `name` varchar(40) NOT NULL COMMENT '出版社名',
-                      PRIMARY KEY (`publisherid`)
+                      PRIMARY KEY (`publisherid`),
+                      CONSTRAINT `publisherid` FOREIGN KEY (`publisherid`) REFERENCES `publisher_notes` (`publisherid`)
                     ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='出版社'
                 """),
                 sql('DROP TABLE IF EXISTS `book`'),
@@ -133,6 +142,7 @@ class TableRepositorySpec extends Specification {
         cleanup:
         new DbSetup(destination, sequenceOf(
                 sql('SET foreign_key_checks = 0'),
+                sql('DROP TABLE IF EXISTS `publisher_notes`'),
                 sql('DROP TABLE IF EXISTS `publisher`'),
                 sql('DROP TABLE IF EXISTS `book`'),
                 sql('SET foreign_key_checks = 1')
