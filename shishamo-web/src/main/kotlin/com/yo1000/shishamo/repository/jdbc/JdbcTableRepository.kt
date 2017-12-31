@@ -137,14 +137,15 @@ class JdbcTableRepository(
                             ) }.map { (key, value) ->
                                 val parent: Relation = value.map {
                                     it[MAP_KEY_COLS_PARENT] as Map<*, *>?
+                                }.filterNotNull().filter {
+                                    (it[MAP_KEY_TABLE] as String).isNotEmpty() &&
+                                    (it[MAP_KEY_COLUMN] as String).isNotEmpty()
                                 }.map {
-                                    it?.let {
-                                        Relation(
-                                                table = Table(it[MAP_KEY_TABLE] as String),
-                                                column = Column(it[MAP_KEY_COLUMN] as String)
-                                        )
-                                    }
-                                }.filterNotNull().firstOrNull()?: Relation(Table(""), Column(""))
+                                    Relation(
+                                            table = Table(it[MAP_KEY_TABLE] as String),
+                                            column = Column(it[MAP_KEY_COLUMN] as String)
+                                    )
+                                }.firstOrNull()?: Relation(Table(""), Column(""))
 
                                 val children: List<Relation> = value.map {
                                     it[MAP_KEY_COLS_CHILDREN] as Map<*, *>?
