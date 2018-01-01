@@ -26,6 +26,8 @@
 		<kotlin.compiler.apiVersion>1.1</kotlin.compiler.apiVersion>
 		<kotlin.compiler.jvmTarget>1.8</kotlin.compiler.jvmTarget>
 		<java.version>1.8</java.version>
+
+		<embedded.test.skip>true</embedded.test.skip>
 	</properties>
 
 	<dependencies>
@@ -97,6 +99,14 @@
 		</dependency>
 	</dependencies>
 
+	<profiles>
+		<profile>
+			<id>embedded</id>
+			<properties>
+				<embedded.test.skip>false</embedded.test.skip>
+			</properties>
+		</profile>
+	</profiles>
 	<build>
 		<sourceDirectory>${project.basedir}/src/main/kotlin</sourceDirectory>
 		<testSourceDirectory>${project.basedir}/src/test/java</testSourceDirectory>
@@ -118,6 +128,9 @@
 			<plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<skipTests>${embedded.test.skip}</skipTests>
+				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.jacoco</groupId>
