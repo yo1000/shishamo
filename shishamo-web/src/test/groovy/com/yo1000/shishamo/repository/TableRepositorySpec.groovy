@@ -29,7 +29,6 @@ class TableRepositorySpec extends Specification {
     def 'Get tables'() {
         given: 'Prepare test tables.'
         new DbSetup(destination, sequenceOf(
-                sql('SET NAMES utf8'),
                 sql('SET foreign_key_checks = 0'),
                 sql('DROP TABLE IF EXISTS book'),
                 sql("""
@@ -64,7 +63,6 @@ class TableRepositorySpec extends Specification {
         // FIXME untested defaultValue, nullable
         given:
         new DbSetup(destination, sequenceOf(
-                sql('SET NAMES utf8'),
                 sql('SET foreign_key_checks = 0'),
                 sql('DROP TABLE IF EXISTS `publisher`'),
                 sql("""
@@ -159,7 +157,6 @@ class TableRepositorySpec extends Specification {
     def 'Get child column'() {
         given:
         new DbSetup(destination, sequenceOf(
-                sql('SET NAMES utf8'),
                 sql('SET foreign_key_checks = 0'),
                 sql('DROP TABLE IF EXISTS `publisher`'),
                 sql("""
@@ -224,7 +221,6 @@ class TableRepositorySpec extends Specification {
     def 'Get parent table count'() {
         given:
         new DbSetup(destination, sequenceOf(
-                sql('SET NAMES utf8'),
                 sql('SET foreign_key_checks = 0'),
                 sql('DROP TABLE IF EXISTS `publisher`'),
                 sql("""
@@ -269,7 +265,6 @@ class TableRepositorySpec extends Specification {
     def 'Get child table count'() {
         given:
         new DbSetup(destination, sequenceOf(
-                sql('SET NAMES utf8'),
                 sql('SET foreign_key_checks = 0'),
                 sql('DROP TABLE IF EXISTS `publisher`'),
                 sql("""
@@ -349,7 +344,6 @@ class TableRepositorySpec extends Specification {
     def 'Get column count'() {
         given:
         new DbSetup(destination, sequenceOf(
-                sql('SET NAMES utf8'),
                 sql('SET foreign_key_checks = 0'),
                 sql('DROP TABLE IF EXISTS `publisher`'),
                 sql("""
@@ -394,7 +388,6 @@ class TableRepositorySpec extends Specification {
     def 'Show create table.'() {
         given:
         new DbSetup(destination, sequenceOf(
-                sql('SET NAMES utf8'),
                 sql('SET foreign_key_checks = 0'),
                 sql('DROP TABLE IF EXISTS `publisher`'),
                 sql("""
