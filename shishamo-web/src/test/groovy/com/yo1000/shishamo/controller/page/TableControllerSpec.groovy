@@ -1,6 +1,5 @@
 package com.yo1000.shishamo.controller.page
 
-import com.yo1000.shishamo.embedded.mysql.EmbeddedMysqlComponent
 import com.yo1000.shishamo.model.*
 import com.yo1000.shishamo.service.IndexService
 import com.yo1000.shishamo.service.TableService
@@ -22,8 +21,6 @@ import spock.lang.Unroll
 class TableControllerSpec extends Specification {
     @Autowired
     MockMvc mockMvc
-    @Autowired
-    EmbeddedMysqlComponent embeddedMysqlComponent
     @SpyBean
     TableService tableService
     @SpyBean

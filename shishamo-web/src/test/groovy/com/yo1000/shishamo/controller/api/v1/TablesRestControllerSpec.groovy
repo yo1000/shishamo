@@ -1,6 +1,5 @@
 package com.yo1000.shishamo.controller.api.v1
 
-import com.yo1000.shishamo.embedded.mysql.EmbeddedMysqlComponent
 import com.yo1000.shishamo.model.*
 import com.yo1000.shishamo.service.TableService
 import org.hamcrest.Matchers
@@ -26,8 +25,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class TablesRestControllerSpec extends Specification {
     @Autowired
     MockMvc mockMvc
-    @Autowired
-    EmbeddedMysqlComponent embeddedMysqlComponent
     @SpyBean
     TableService tableService
 

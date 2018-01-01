@@ -2,11 +2,10 @@ package com.yo1000.shishamo.repository
 
 import com.ninja_squad.dbsetup.DbSetup
 import com.ninja_squad.dbsetup.destination.DataSourceDestination
+import com.yo1000.shishamo.model.Index
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties
 import org.springframework.boot.test.context.SpringBootTest
-import com.yo1000.shishamo.embedded.mysql.EmbeddedMysqlComponent
-import com.yo1000.shishamo.model.Index
 import spock.lang.Specification
 import spock.lang.Unroll
 
@@ -18,8 +17,6 @@ import static com.ninja_squad.dbsetup.Operations.sql
 @Unroll
 @SpringBootTest
 class IndexRepositorySpec extends Specification {
-    @Autowired
-    EmbeddedMysqlComponent embeddedMysqlComponent
     @Autowired
     IndexRepository indexRepository
     @Autowired

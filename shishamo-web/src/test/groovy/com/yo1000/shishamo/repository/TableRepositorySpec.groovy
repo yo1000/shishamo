@@ -2,7 +2,6 @@ package com.yo1000.shishamo.repository
 
 import com.ninja_squad.dbsetup.DbSetup
 import com.ninja_squad.dbsetup.destination.DataSourceDestination
-import com.yo1000.shishamo.embedded.mysql.EmbeddedMysqlComponent
 import com.yo1000.shishamo.model.Table
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties
@@ -17,8 +16,6 @@ import static com.ninja_squad.dbsetup.Operations.*
 @Unroll
 @SpringBootTest
 class TableRepositorySpec extends Specification {
-    @Autowired
-    EmbeddedMysqlComponent embeddedMysqlComponent
     @Autowired
     TableRepository tableRepository
     @Autowired

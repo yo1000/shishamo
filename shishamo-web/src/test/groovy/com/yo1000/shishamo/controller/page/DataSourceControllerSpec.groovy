@@ -6,7 +6,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
-import com.yo1000.shishamo.embedded.mysql.EmbeddedMysqlComponent
 import spock.lang.Specification
 import spock.lang.Unroll
 /**
@@ -18,8 +17,6 @@ import spock.lang.Unroll
 class DataSourceControllerSpec extends Specification {
     @Autowired
     MockMvc mockMvc
-    @Autowired
-    EmbeddedMysqlComponent embeddedMysqlComponent
     @Autowired
     DataSourceProperties dataSourceProperties
 
