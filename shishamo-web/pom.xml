@@ -31,9 +31,6 @@
     <profiles>
         <profile>
             <id>embedded</id>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
             <dependencies>
 				<dependency>
 					<groupId>com.yo1000</groupId>
