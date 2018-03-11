@@ -30,9 +30,9 @@
                     <tbody>
                     <tr th:each="table : ${tables}">
                         <td class="ellipsis-container-search-table"><div class="ellipsis"><a href="table.html"
-                                                                                             class="search-result-table"
-                                                                                             th:classappend="${table.nameHit} ? 'search-result-hit' : ''"
-                                                                                             th:href="@{'/tables/' + ${table.name}}"><ruby><span
+                            class="search-result-table"
+                            th:classappend="${table.nameHit} ? 'search-result-hit' : ''"
+                            th:href="@{'/tables/' + ${table.name}}"><ruby><span
                                 class="search-result-name"
                                 th:text="${table.name}">table-name</span><rt
                                 class="search-result-comment"
