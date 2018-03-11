@@ -1,169 +1,114 @@
+html {
+    line-height: normal;
+}
+
+body {
+    padding-bottom: 3.56rem;
+}
+
 object {
     pointer-events: none;
 }
 
-.navbar-inverse,
-.navbar-inverse .navbar-nav>li {
+nav .brand-logo {
+    line-height: 72px;
+}
+
+nav input[type="text"]:not(.browser-default) {
+    margin: 0 1rem;
+    width: inherit;
+}
+
+.card-content h2 {
+    margin-top: 0;
+}
+
+.card-content em {
+    display: inline-block;
+    margin-top: 1rem;
+}
+
+h2 small {
+    color: #aaa;
+}
+
+table {
+    margin-bottom: 1rem;
+}
+
+table pre {
+    margin: 0.1rem;
+}
+
+table pre .hljs {
     padding: 0;
 }
 
-.navbar-inverse .navbar-brand,
-.navbar-inverse .navbar-nav>li>a,
-.navbar-inverse .navbar-nav>li>a {
-    color: #fff;
-
+ul {
     margin: 0;
 }
 
-.navbar-inverse,
-.navbar-inverse .navbar-nav>li,
-.navbar-inverse .navbar-nav>.active,
-.navbar-inverse .navbar-nav>.active>a,
-.navbar-inverse .navbar-nav>.active>a:focus,
-.navbar-inverse .navbar-nav>.active>a:hover {
-    background-color: #4479a1;
-    border-color: #4479a1;
+.index-primary,
+.index-unique,
+.index-performance {
+    display: flex;
 }
 
-.navbar-inverse .navbar-nav>li>a:focus,
-.navbar-inverse .navbar-nav>li>a:hover,
-.navbar-inverse .navbar-nav>.active>a,
-.navbar-inverse .navbar-nav>.active>a:focus,
-.navbar-inverse .navbar-nav>.active>a:hover {
-    color: #faedb2;
-
-    text-decoration: none;
+.index-primary span,
+.index-unique span,
+.index-performance span {
+    margin: auto .125rem;
 }
 
-body {
-    color: #555;
-
-    margin-bottom: 2rem;
+.index-primary {
+    color: #f44336;
 }
 
-a,
-a:hover,
-a:visited {
-    color: #00759f;
+.index-unique {
+    color: #ff9800;
 }
 
-.h1, h1 {
-    font-size: 2.6rem;
-
-    margin: 20px 0 25px 0;
-    padding: 4px 0 4px 0;
+.index-performance {
+    color: #2196f3;
 }
 
-.h2, h2 {
-    font-size: 1.3rem;
-
-    margin: 24px 0 12px 0;
+nav form {
+    margin-left: 1rem;
 }
 
-.h2 code,
-h2 code {
-    margin-right: .5rem;
+nav .input-field input[type="text"]:valid,
+nav .input-field input[type="text"]:not(.browser-default):focus:not([readonly]) {
+    border-bottom: solid 1px;
+    -webkit-box-shadow: 0 0 0 0 #fff;
+            box-shadow: 0 0 0 0 #fff;
 }
 
-.table,
-table,
-p {
-    margin: 0 0 10px 0;
-    padding: 0;
+.nav-wrapper .input-field input[type="text"]:focus,
+.nav-wrapper .input-field input[type="text"]:not(.browser-default) {
+    height: 2rem;
 }
 
-.table ul,
-table ul {
-    margin: 0;
-    padding: 0;
+.input-field .prefix {
+    font-size: 1.5rem;
+}
 
-    list-style: none;
+.input-field .prefix ~ input {
+    margin-left: 2rem;
+}
+
+.ribbon {
+    position: absolute;
+    top: 5rem;
+    right: 1rem;
 }
 
 .ellipsis {
     text-overflow: ellipsis;
-    overflow: hidden;
+    overflow: auto;
     white-space: nowrap;
-}
-
-.ellipsis-container-search-table {
-    max-width: 30rem;
-}
-
-.ellipsis-container-search-columns {
-    max-width: 40rem;
-}
-
-.ellipsis-container-table-type {
-    max-width: 8rem;
-}
-
-.ellipsis-container-table-column,
-.ellipsis-container-table-parent,
-.ellipsis-container-table-children {
-    max-width: 8rem;
-}
-
-.ellipsis-container-table-comment {
-    max-width: 20rem;
-}
-
-.navbar-brand,
-.nav>li>a {
-    height: 64px;
-    padding: 22px 15px;
-}
-
-.navbar-brand {
-    padding: 17px 15px;
-}
-
-.btn-outline-warning {
-    color: #f49200;
-    border-color: #f49200;
-}
-
-.btn-outline-warning:hover {
-    background-color: #f49200;
-    border-color: #f49200;
-}
-
-.container {
-    margin-top: 30px;
-}
-
-.transparency {
-    opacity: 0;
-}
-
-.search-result-query {
-    font-weight: lighter;
-    margin-left: .5rem;
-}
-
-.search-result-query-link {
-    font-size: 1rem;
-    font-weight: lighter;
-    margin-left: .5rem;
-}
-
-.search-result-name {
-    /**/
-}
-
-.search-result-comment {
-    margin-left: .25rem;
 }
 
 .search-result-hit .search-result-name,
 .search-result-hit .search-result-comment {
     color: #f49200 !important;
-}
-
-.search-result-hit .search-result-name {
-    padding: .125rem;
-}
-
-.search-result-separator {
-    color: rgba(0, 0, 0, .125);
 }
