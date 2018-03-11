@@ -12,64 +12,68 @@
 <body>
 <div th:replace="_fragments :: navbar (activeMenu='')"></div>
 <div class="container">
-    <div class="page-header">
-        <h1>Search results</h1>
+    <h1>Search results</h1>
+    <div class="card">
+        <div class="card-content">
+            <div class="ellipsis">
+                <h2>for: <em class="search-result-query" th:each="q : ${queries}" th:text="${q}">query</em>
+                    <a class="search-result-query-link" href="/tables/search?q="
+                       th:href="@{'/tables/search?q=' + ${queriesAsUrlParam}}"><i class="fa fa-link"></i></a>
+                </h2>
+                <table class="bordered table table-striped table-bordered table-hover table-sm">
+                    <thead>
+                    <tr>
+                        <th>Table</th>
+                        <th>Columns</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="table : ${tables}">
+                        <td class="ellipsis-container-search-table"><div class="ellipsis"><a href="table.html"
+                            class="search-result-table"
+                            th:classappend="${table.nameHit} ? 'search-result-hit' : ''"
+                            th:href="@{'/tables/' + ${table.name}}"><ruby><span
+                                class="search-result-name"
+                                th:text="${table.name}">table-name</span><rt
+                                class="search-result-comment"
+                                th:text="${table.comment}">table-comment</rt></ruby></a></div></td>
+                        <td class="ellipsis-container-search-columns"><div class="ellipsis">
+                        <span th:each="col, stat : ${table.hitColumns}"><span
+                                class="search-result-separator"
+                                th:if="${stat.index >= 1}">&nbsp;/&nbsp;</span><ruby
+                                class="search-result-column search-result-hit"><span
+                                class="search-result-name"
+                                th:text="${col.name}"></span><rt
+                                class="search-result-comment"
+                                th:if="${!#strings.isEmpty(col.comment)}"
+                                th:text="${col.comment}"></rt></ruby></span><span
+                                th:each="col, stat : ${table.mishitColumns}"><span
+                                class="search-result-separator"
+                                th:if="${!#lists.isEmpty(table.hitColumns)} or ${stat.index >= 1}">&nbsp;/&nbsp;</span><ruby
+                                class="search-result-column"><span
+                                class="search-result-name"
+                                th:text="${col.name}"></span><rt
+                                class="search-result-comment"
+                                th:if="${!#strings.isEmpty(col.comment)}"
+                                th:text="${col.comment}"></rt></ruby></span>
+                            <!--/*-->
+                            ,<span>col2 COL2</span>
+                            ,<span>..</span>
+                            <!--*/-->
+                        </div></td>
+                    </tr>
+                    <!--/*-->
+                    <tr>
+                        <td><a href="table.html">publisher</a></td>
+                        <td>col1 COL1, col2 COL2, ..</td>
+                    </tr>
+                    <!--*/-->
+                    </tbody>
+                </table>
+                <em th:text="'Number of hits: ' + ${#lists.size(tables)}">0 tables.</em>
+            </div>
+        </div>
     </div>
-    <h2>for: <em class="search-result-query" th:each="q : ${queries}" th:text="${q}">query</em>
-        <a class="search-result-query-link" href="/tables/search?q="
-           th:href="@{'/tables/search?q=' + ${queriesAsUrlParam}}"><i class="fa fa-link"></i></a>
-    </h2>
-    <table class="table table-striped table-bordered table-hover table-sm">
-        <thead>
-        <tr>
-            <th>Table</th>
-            <th>Columns</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="table : ${tables}">
-            <td class="ellipsis-container-search-table"><div class="ellipsis"><a href="table.html"
-                    class="search-result-table"
-                    th:classappend="${table.nameHit} ? 'search-result-hit' : ''"
-                    th:href="@{'/tables/' + ${table.name}}"><ruby><span
-                    class="search-result-name"
-                    th:text="${table.name}">table-name</span><rt
-                    class="search-result-comment"
-                    th:text="${table.comment}">table-comment</rt></ruby></a></div></td>
-            <td class="ellipsis-container-search-columns"><div class="ellipsis">
-                <span th:each="col, stat : ${table.hitColumns}"><span
-                        class="search-result-separator"
-                        th:if="${stat.index >= 1}">&nbsp;/&nbsp;</span><ruby
-                        class="search-result-column search-result-hit"><span
-                        class="search-result-name"
-                        th:text="${col.name}"></span><rt
-                        class="search-result-comment"
-                        th:if="${!#strings.isEmpty(col.comment)}"
-                        th:text="${col.comment}"></rt></ruby></span><span
-                    th:each="col, stat : ${table.mishitColumns}"><span
-                        class="search-result-separator"
-                        th:if="${!#lists.isEmpty(table.hitColumns)} or ${stat.index >= 1}">&nbsp;/&nbsp;</span><ruby
-                        class="search-result-column"><span
-                        class="search-result-name"
-                        th:text="${col.name}"></span><rt
-                        class="search-result-comment"
-                        th:if="${!#strings.isEmpty(col.comment)}"
-                        th:text="${col.comment}"></rt></ruby></span>
-                <!--/*-->
-                ,<span>col2 COL2</span>
-                ,<span>..</span>
-                <!--*/-->
-            </div></td>
-        </tr>
-        <!--/*-->
-        <tr>
-            <td><a href="table.html">publisher</a></td>
-            <td>col1 COL1, col2 COL2, ..</td>
-        </tr>
-        <!--*/-->
-        </tbody>
-    </table>
-    <p th:text="'Number of hits: ' + ${#lists.size(tables)}">0 tables.</p>
 </div>
 <div th:replace="_fragments :: ribbon"></div>
 <div th:replace="_fragments :: foot">

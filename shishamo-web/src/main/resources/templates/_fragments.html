@@ -3,56 +3,52 @@
 <head th:fragment="head (title)">
     <meta charset="UTF-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title th:text="${title} + ' - shishamo'">header - shishamo</title>
-
-    <link rel="stylesheet"
-          href="../static/bootstrap-4.0.0-alpha.6/css/bootstrap.min.css"
-          th:href="@{/bootstrap-4.0.0-alpha.6/css/bootstrap.min.css}"/>
-    <link rel="stylesheet"
-          href="../static/font-awesome-4.7.0/css/font-awesome.min.css"
-          th:href="@{/font-awesome-4.7.0/css/font-awesome.min.css}"/>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" media="screen,projection"
+          href="../static/materialize/css/materialize.min.css"
+          th:href="@{/materialize/css/materialize.min.css}"/>
     <link rel="stylesheet"
           href="../static/app/css/app.css"
           th:href="@{/app/css/app.css}"/>
+    <link type="text/css" rel="stylesheet" media="screen,projection"
+          href="../static/highlight/css/idea.css"
+          th:href="@{/highlight/css/idea.css}"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
 </head>
 <body>
-<nav class="navbar navbar-toggleable-md navbar-inverse bg-faded sticky-top"
-     th:fragment="navbar (activeMenu)">
-    <a class="navbar-brand" href="/">
-        <object id="site-logo" type="image/svg+xml" alt="logo" width="27" height="27"
-                data="../static/app/img/shishamo-nav-logo.svg"
-                th:attr="data=@{/app/img/shishamo-nav-logo.svg}"></object>
-    </a>
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-        <ul class="nav navbar-nav mr-auto mt-auto mb-auto">
-            <li class="active" th:class="${activeMenu == 'table'}? 'active'">
-                <a href="tables.html" th:href="@{'/tables'}">Table</a>
-            </li>
-            <li th:class="${activeMenu == 'dataSource'}? 'active'">
-                <a href="data-source.html" th:href="@{'/data-source'}">Data Source</a>
-            </li>
-        </ul>
-        <form class="form-inline my-2 my-lg-0 mr-3" type="get"
-              action="/tables/search"
-              th:action="@{'/tables/search'}">
-            <input class="form-control mr-sm-2" type="text" name="q" placeholder="Search">
-            <button class="btn btn-outline-warning my-2 my-sm-0" type="submit">Search</button>
-        </form>
-    </div>
-</nav>
-<div th:fragment="foot">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script src="../static/bootstrap-4.0.0-alpha.6/js/bootstrap.min.js"
-            th:src="@{/bootstrap-4.0.0-alpha.6/js/bootstrap.min.js}"></script>
+<div class="navbar-fixed" th:fragment="navbar (activeMenu)">
+    <nav class="light-blue darken-3" role="navigation">
+        <div class="nav-wrapper container">
+            <a id="logo-container" href="/" class="brand-logo">
+                <object id="site-logo" type="image/svg+xml" alt="logo" width="27" height="27"
+                        data="../static/app/img/shishamo-nav-logo-w.svg"
+                        th:attr="data=@{/app/img/shishamo-nav-logo-w.svg}"></object>
+            </a>
+            <form class="input-field col s6" type="get"
+                  action="/tables/search"
+                  th:action="@{'/tables/search'}">
+                <ul class="right hide-on-med-and-down">
+                    <li class="active" th:class="${activeMenu == 'table'}? 'active'">
+                        <a href="tables.html" th:href="@{'/tables'}">Table</a>
+                    </li>
+                    <li th:class="${activeMenu == 'dataSource'}? 'active'">
+                        <a href="data-source.html" th:href="@{'/data-source'}">Data Source</a>
+                    </li>
+                    <li>
+                        <input type="text" name="q" placeholder="Search">
+                    </li>
+                </ul>
+            </form>
+        </div>
+    </nav>
 </div>
+<div th:fragment="foot"></div>
 <div th:fragment="ribbon">
     <a href="https://github.com/yo1000/shishamo">
-        <div style="position: absolute; top: 64px; right: 0; border: 0;">
-            <object id="github-ribbon" type="image/svg+xml" alt="github-ribbon" width="150" height="150"
-                    data="../static/app/img/github-ribbon.svg"
-                    th:attr="data=@{/app/img/github-ribbon.svg}"></object>
-        </div>
+        <div class="ribbon">Fork me on GitHub &gt;&gt;</div>
     </a>
 </div>
 </body>

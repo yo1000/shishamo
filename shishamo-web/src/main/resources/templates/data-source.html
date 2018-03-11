@@ -12,19 +12,34 @@
 <body>
 <div th:replace="_fragments :: navbar (activeMenu='dataSource')"></div>
 <div class="container">
-    <h1><span th:text="'Data source ' + ${dataSourceProperties.name}">Data source sample</span></h1>
-
-    <h2>URL</h2>
-    <pre class="card card-block"><code th:text="${dataSourceProperties.url}">jdbc:mysql://localhost:3306/sample</code></pre>
-
-    <h2>Schema</h2>
-    <pre class="card card-block"><code th:text="${dataSourceProperties.name}">sample</code></pre>
-
-    <h2>Username</h2>
-    <pre class="card card-block"><code th:text="${dataSourceProperties.username}">sampleUser</code></pre>
-
-    <h2>Driver class</h2>
-    <pre class="card card-block"><code th:text="${dataSourceProperties.driverClassName}">com.mysql.jdbc.Driver</code></pre>
+    <h1>Data source</h1>
+    <div class="card">
+        <div class="card-content">
+            <div class="ellipsis">
+                <h2 th:text="${dataSourceProperties.name}">sample</h2>
+                <table class="bordered">
+                    <tbody>
+                    <tr>
+                        <th>URL</th>
+                        <td><pre><code th:text="${dataSourceProperties.url}">jdbc:mysql://localhost:3306/sample</code></pre></td>
+                    </tr>
+                    <tr>
+                        <th>Schema</th>
+                        <td><pre><code th:text="${dataSourceProperties.name}">sample</code></pre></td>
+                    </tr>
+                    <tr>
+                        <th>Username</th>
+                        <td><pre><code th:text="${dataSourceProperties.username}">sampleUser</code></pre></td>
+                    </tr>
+                    <tr>
+                        <th>Driver class</th>
+                        <td><pre><code th:text="${dataSourceProperties.driverClassName}">com.mysql.jdbc.Driver</code></pre></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>
 <div th:replace="_fragments :: ribbon"></div>
 <div th:replace="_fragments :: foot">
