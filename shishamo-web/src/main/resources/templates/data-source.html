@@ -5,9 +5,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <title>Data source sample - shishamo</title>
-    <link rel="stylesheet" href="../static/bootstrap-4.0.0-alpha.6/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="../static/font-awesome-4.7.0/css/font-awesome.min.css"/>
-    <link rel="stylesheet" href="../static/app/css/app.css"/>
+    <link type="text/css" rel="stylesheet" media="screen,projection" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link type="text/css" rel="stylesheet" media="screen,projection" href="../static/materialize/css/materialize.min.css"/>
+    <link type="text/css" rel="stylesheet" media="screen,projection" href="../static/app/css/app.css"/>
+    <link type="text/css" rel="stylesheet" media="screen,projection" href="../static/highlight/css/idea.css"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
 </head>
 <body>
 <div th:replace="_fragments :: navbar (activeMenu='dataSource')"></div>
@@ -42,9 +45,6 @@
     </div>
 </div>
 <div th:replace="_fragments :: ribbon"></div>
-<div th:replace="_fragments :: foot">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script src="../static/bootstrap-4.0.0-alpha.6/js/bootstrap.min.js"></script>
-</div>
+<div th:replace="_fragments :: foot"></div>
 </body>
 </html>

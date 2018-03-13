@@ -5,11 +5,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title th:text="${title} + ' - shishamo'">header - shishamo</title>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" media="screen,projection"
+          href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link type="text/css" rel="stylesheet" media="screen,projection"
           href="../static/materialize/css/materialize.min.css"
           th:href="@{/materialize/css/materialize.min.css}"/>
-    <link rel="stylesheet"
+    <link type="text/css" rel="stylesheet" media="screen,projection"
           href="../static/app/css/app.css"
           th:href="@{/app/css/app.css}"/>
     <link type="text/css" rel="stylesheet" media="screen,projection"
@@ -30,7 +31,7 @@
             <form class="input-field col s6" type="get"
                   action="/tables/search"
                   th:action="@{'/tables/search'}">
-                <ul class="right hide-on-med-and-down">
+                <ul class="right">
                     <li class="active" th:class="${activeMenu == 'table'}? 'active'">
                         <a href="tables.html" th:href="@{'/tables'}">Table</a>
                     </li>

@@ -44,6 +44,50 @@ table pre .hljs {
     padding: 0;
 }
 
+td {
+    vertical-align: top;
+    line-height: 24px;
+}
+
+td .ellipsis {
+    display: flex;
+}
+
+.ellipsis {
+    text-overflow: ellipsis;
+    overflow: auto;
+    white-space: nowrap;
+}
+
+.ellipsis-container-search-table {
+    max-width: 30rem;
+}
+
+.ellipsis-container-search-columns {
+    max-width: 40rem;
+}
+
+.ellipsis-container-table-type {
+    max-width: 8rem;
+}
+
+.ellipsis-container-table-column,
+.ellipsis-container-table-parent,
+.ellipsis-container-table-children {
+    max-width: 14rem;
+}
+
+.ellipsis-container-table-comment {
+    max-width: 20rem;
+}
+
+.ellipsis-container-table-nullable {}
+
+.search-result-hit .search-result-name,
+.search-result-hit .search-result-comment {
+    color: #f49200 !important;
+}
+
 ul {
     margin: 0;
 }
@@ -70,6 +114,14 @@ ul {
 
 .index-performance {
     color: #2196f3;
+}
+
+.blank i {
+    color: transparent;
+}
+
+.text-center {
+    text-align: center;
 }
 
 nav form {
@@ -102,13 +154,8 @@ nav .input-field input[type="text"]:not(.browser-default):focus:not([readonly]) 
     right: 1rem;
 }
 
-.ellipsis {
-    text-overflow: ellipsis;
-    overflow: auto;
-    white-space: nowrap;
-}
-
-.search-result-hit .search-result-name,
-.search-result-hit .search-result-comment {
-    color: #f49200 !important;
+@media only screen and (max-width: 992px) {
+    nav .brand-logo {
+         left: inherit;
+    }
 }

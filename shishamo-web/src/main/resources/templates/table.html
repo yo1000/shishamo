@@ -5,9 +5,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <title>Table sample.book - shishamo</title>
-    <link rel="stylesheet" href="../static/bootstrap-4.0.0-alpha.6/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="../static/font-awesome-4.7.0/css/font-awesome.min.css"/>
-    <link rel="stylesheet" href="../static/app/css/app.css"/>
+    <link type="text/css" rel="stylesheet" media="screen,projection" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link type="text/css" rel="stylesheet" media="screen,projection" href="../static/materialize/css/materialize.min.css"/>
+    <link type="text/css" rel="stylesheet" media="screen,projection" href="../static/app/css/app.css"/>
+    <link type="text/css" rel="stylesheet" media="screen,projection" href="../static/highlight/css/idea.css"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
 </head>
 <body>
 <div th:replace="_fragments :: navbar (activeMenu='table')"></div>
@@ -31,25 +34,25 @@
                     </thead>
                     <tbody>
                     <tr th:each="column : ${table.columns}">
-                        <td class="ellipsis-container-table-column"
-                            th:classappend="${column.indexesPrimary(indices)}? 'index-primary text-danger'
-                    : (${column.indexesUnique(indices)}? 'index-unique text-warning'
-                    : (${column.indexesPerformance(indices)}? 'index-performance text-info'))">
+                        <td class="ellipsis-container-table-column index-primary"
+                            th:class="${column.indexesPrimary(indices)}? 'ellipsis-container-table-column index-primary'
+                            : (${column.indexesUnique(indices)}? 'ellipsis-container-table-column index-unique'
+                            : (${column.indexesPerformance(indices)}? 'ellipsis-container-table-column index-performance'
+                            : 'ellipsis-container-table-column blank'))">
                             <div class="ellipsis">
-                                <i class="fa fa-circle-o transparency" aria-hidden="true"
-                                   th:class="${column.indexesPrimary(indices)}? 'fa fa-circle'
-                    : (${column.indexesUnique(indices)}? 'fa fa-dot-circle-o'
-                    : (${column.indexesPerformance(indices)}? 'fa fa-circle-o'
-                    : 'fa fa-circle transparency'))"></i>
+                                <i class="material-icons"
+                                   th:text="${column.indexesPrimary(indices)}? 'stars'
+                                   : (${column.indexesUnique(indices)}? 'radio_button_checked'
+                                   : (${column.indexesPerformance(indices)}? 'radio_button_unchecked'
+                                   : 'more_horiz'))">stars</i>
                                 <span th:text="${column.name}">book</span>
                             </div>
                         </td>
                         <td class="ellipsis-container-table-type">
                             <div class="ellipsis" th:text="${column.type}">bigint(19)</div>
                         </td>
-                        <td class="text-center">
-                            <i class="fa fa-check" aria-hidden="true"
-                               th:if="${column.nullable}"></i>
+                        <td class="ellipsis-container-table-nullable">
+                            <div class="ellipsis"><i class="material-icons" th:if="${column.nullable}">check</i></div>
                         </td>
                         <td th:text="${column.defaultValue}"></td>
                         <td class="ellipsis-container-table-children">
@@ -75,13 +78,11 @@
                     </tr>
                     <!--/*-->
                     <tr>
-                        <td class="index-primary text-danger ellipsis-container-table-column">
-                            <div class="ellipsis"><i class="fa fa-dot-circle-o" aria-hidden="true"></i> title6789a123456789b123456789c123456789d123456789e123456789f123456789g123456789h123456789i123456789j</div>
+                        <td class="index-primary ellipsis-container-table-column">
+                            <div class="ellipsis"><i class="material-icons">stars</i><span>title6789a123456789b123456789c123456789d123456789e123456789f123456789g123456789h123456789i123456789j</span></div>
                         </td>
-                        <td class="ellipsis-container-table-type">
-                            <div class="ellipsis">bigint(1024) unsigned</div>
-                        </td>
-                        <td class="text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="ellipsis-container-table-type"><div class="ellipsis">bigint(1024) unsigned</div></td>
+                        <td class="ellipsis-container-table-nullable"><div class="ellipsis"><i class="material-icons">check</i></div></td>
                         <td></td>
                         <td class="ellipsis-container-table-children">
                             <ul>
@@ -97,11 +98,9 @@
                         </td>
                     </tr>
                     <tr>
-                        <td class="index-unique text-warning ellipsis-container-table-column">
-                            <div class="ellipsis"><i class="fa fa-dot-circle-o" aria-hidden="true"></i> title</div>
-                        </td>
-                        <td>varchar(128)</td>
-                        <td></td>
+                        <td class="index-unique text-warning ellipsis-container-table-column"><div class="ellipsis"><i class="material-icons">radio_button_checked</i><span>title</span></div></td>
+                        <td><div class="ellipsis">varchar(128)</div></td>
+                        <td class="ellipsis-container-table-nullable"><div class="ellipsis"><i class="material-icons">check</i></div></td>
                         <td></td>
                         <td></td>
                         <td></td>
@@ -110,60 +109,45 @@
                         </td>
                     </tr>
                     <tr>
-                        <td class="index-performance text-info">
-                            <i class="fa fa-circle-o" aria-hidden="true"></i>
-                            title
-                        </td>
-                        <td>varchar(128)</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td>タイトル</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <i class="fa fa-circle-o transparency" aria-hidden="true"></i>
-                            title
-                        </td>
-                        <td>varchar(128)</td>
-                        <td></td>
+                        <td class="index-performance text-info"><div class="ellipsis"><i class="material-icons">radio_button_unchecked</i><span>title</span></div></td>
+                        <td><div class="ellipsis">varchar(128)</div></td>
+                        <td class="ellipsis-container-table-nullable"></td>
                         <td></td>
                         <td></td>
                         <td></td>
                         <td>タイトル</td>
                     </tr>
                     <tr>
-                        <td>
-                            <i class="fa fa-circle-o transparency" aria-hidden="true"></i>
-                            title
-                        </td>
-                        <td>varchar(128)</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td>タイトル</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <i class="fa fa-circle-o transparency" aria-hidden="true"></i>
-                            title
-                        </td>
-                        <td>varchar(128)</td>
-                        <td></td>
+                        <td class="blank"><div class="ellipsis"><i class="material-icons">more_horiz</i><span>title</span></div></td>
+                        <td><div class="ellipsis">varchar(128)</div></td>
+                        <td class="ellipsis-container-table-nullable"></td>
                         <td></td>
                         <td></td>
                         <td></td>
                         <td>タイトル</td>
                     </tr>
                     <tr>
-                        <td>
-                            <i class="fa fa-circle-o transparency" aria-hidden="true"></i>
-                            title
-                        </td>
-                        <td>varchar(128)</td>
+                        <td class="blank"><div class="ellipsis"><i class="material-icons">more_horiz</i><span>title</span></div></td>
+                        <td><div class="ellipsis">varchar(128)</div></td>
+                        <td class="ellipsis-container-table-nullable"><div class="ellipsis"><i class="material-icons">check</i></div></td>
                         <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>タイトル</td>
+                    </tr>
+                    <tr>
+                        <td class="blank"><div class="ellipsis"><i class="material-icons">more_horiz</i><span>title</span></div></td>
+                        <td><div class="ellipsis">varchar(128)</div></td>
+                        <td class="ellipsis-container-table-nullable"></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>タイトル</td>
+                    </tr>
+                    <tr>
+                        <td class="blank"><div class="ellipsis"><i class="material-icons">more_horiz</i><span>title</span></div></td>
+                        <td><div class="ellipsis">varchar(128)</div></td>
+                        <td class="ellipsis-container-table-nullable"></td>
                         <td></td>
                         <td></td>
                         <td></td>
@@ -191,15 +175,15 @@
                 </thead>
                 <tbody>
                 <tr th:each="index : ${indices}">
-                    <td class="index-primary red"
+                    <td class="index-primary"
                         th:class="${index.primary}? 'index-primary'
-                : (${index.unique}? 'index-unique'
-                : (${index.performance}? 'index-performance'))">
+                        : (${index.unique}? 'index-unique'
+                        : (${index.performance}? 'index-performance'))">
                         <i class="material-icons"
                            th:text="${index.primary}? 'stars'
-                : (${index.unique}? 'radio_button_checked'
-                : (${index.performance}? 'radio_button_unchecked'
-                : ''))"></i>
+                           : (${index.unique}? 'radio_button_checked'
+                           : (${index.performance}? 'radio_button_unchecked'
+                           : ''))">stars</i>
                         <span th:text="${index.category}">PRIMARY</span>
                     </td>
                     <td th:text="${index.name}">PRIMARY</td>
@@ -209,17 +193,15 @@
                 </tr>
                 <!--/*-->
                 <tr>
-                    <td class="index-unique text-warning">
-                        <i class="fa fa-dot-circle-o" aria-hidden="true"></i>
-                        UNIQUE
+                    <td class="index-unique">
+                        <i class="material-icons">radio_button_checked</i><span>UNIQUE</span>
                     </td>
                     <td>sample unique_key</td>
                     <td><span>hoge,</span><span>fuga</span></td>
                 </tr>
                 <tr>
-                    <td class="index-performance text-info">
-                        <i class="fa fa-circle-o" aria-hidden="true"></i>
-                        PERFORMANCE
+                    <td class="index-performance">
+                        <i class="material-icons">radio_button_unchecked</i><span>PERFORMANCE</span>
                     </td>
                     <td>sample_key</td>
                     <td><span>hoge,</span><span>fuga,</span><span>piyo</span></td>
@@ -249,9 +231,6 @@
 
 </div>
 <div th:replace="_fragments :: ribbon"></div>
-<div th:replace="_fragments :: foot">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script src="../static/bootstrap-4.0.0-alpha.6/js/bootstrap.min.js"></script>
-</div>
+<div th:replace="_fragments :: foot"></div>
 </body>
 </html>
