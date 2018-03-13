@@ -159,3 +159,9 @@ nav .input-field input[type="text"]:not(.browser-default):focus:not([readonly]) 
          left: inherit;
     }
 }
+
+@media only screen and (min-width: 992px) {
+    .container {
+        width: 90%;
+    }
+}

@@ -5,7 +5,7 @@
 
 	<groupId>com.yo1000</groupId>
 	<artifactId>shishamo-parent</artifactId>
-	<version>0.2.1.RELEASE</version>
+	<version>0.2.2.RELEASE</version>
 	<packaging>pom</packaging>
 
 	<name>shishamo-parent</name>
@@ -36,7 +36,7 @@
             <dependency>
                 <groupId>com.yo1000</groupId>
                 <artifactId>shishamo-embedded</artifactId>
-                <version>0.2.1.RELEASE</version>
+                <version>0.2.2.RELEASE</version>
             </dependency>
 
             <dependency>

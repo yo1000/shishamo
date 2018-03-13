@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<artifactId>shishamo-web</artifactId>
-	<version>0.2.1.RELEASE</version>
+	<version>0.2.2.RELEASE</version>
 	<packaging>jar</packaging>
 
 	<name>shishamo-web</name>
@@ -13,7 +13,7 @@
 	<parent>
 		<groupId>com.yo1000</groupId>
 		<artifactId>shishamo-parent</artifactId>
-		<version>0.2.1.RELEASE</version>
+		<version>0.2.2.RELEASE</version>
 		<relativePath>../shishamo-parent/pom.xml</relativePath>
 	</parent>
 
