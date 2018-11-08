@@ -1,7 +1,11 @@
 <svg id="shishamo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1726 360">
   <defs>
     <style>
-    #shishamo-path { fill: #363636; }
+    #shishamo-path {
+      fill-opacity: 0;
+      stroke: #363636;
+      stroke-width: 0.375rem;
+    }
     </style>
   </defs>
   <title>shishamo-logo</title>
