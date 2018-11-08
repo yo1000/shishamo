@@ -5,6 +5,7 @@
       fill-opacity: 0;
       stroke: #363636;
       stroke-width: .75rem;
+      stroke-linejoin: miter;
     }
     </style>
   </defs>
