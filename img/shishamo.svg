@@ -4,7 +4,7 @@
     #shishamo-path {
       fill-opacity: 0;
       stroke: #0a0a0a;
-      stroke-width: .5rem;
+      stroke-width: .375rem;
       stroke-linejoin: miter;
     }
     </style>
