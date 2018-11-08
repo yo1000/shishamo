@@ -1,4 +1,11 @@
 <svg id="shishamo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1726 360">
+  <defs>
+    <style>
+    #shishamo-path { fill: #0a0a0a; }
+    </style>
+  </defs>
   <title>shishamo-logo</title>
-  <path d="M2232,1440v-72h144v-72H2232v-72h144v-72H2088v72h72v72H1944v-72h-72v72h-72V1152h-72v288H1512v-72h96l48-72H1512v-72h96l48-72H1440v288H1203l48-72h69l48-72H1251v-72h69l48-72H791l145,216L722,1512H1800V1368h72v144l72-48v-96h72v72l72-48v-24h72v144h240l48-72ZM1080,1296h-72v-72h72Z" transform="translate(-722 -1152)"/>
+  <g id="shishamo-path">
+    <path d="M2232,1440v-72h144v-72H2232v-72h144v-72H2088v72h72v72H1944v-72h-72v72h-72V1152h-72v288H1512v-72h96l48-72H1512v-72h96l48-72H1440v288H1203l48-72h69l48-72H1251v-72h69l48-72H791l145,216L722,1512H1800V1368h72v144l72-48v-96h72v72l72-48v-24h72v144h240l48-72ZM1080,1296h-72v-72h72Z" transform="translate(-722 -1152)"/>
+  </g>
 </svg>
